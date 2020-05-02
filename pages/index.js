@@ -11,8 +11,8 @@ const Background = s.div`
 `
 
 const CoverImg = s.img`
-  width: 50%;
-  padding: 51px;
+  width: 60%;
+  margin: 1rem 0;
 `
 
 const Title = s.div`
@@ -30,6 +30,59 @@ const LatestDiv = s.div`
   margin-top: 2rem;
 `
 
+const ArticleWrapper = s.div`
+  margin-top: 1rem;
+`
+
+const HeadlineText = s.h4`
+  margin-top: 0.5rem;
+  color: #283033;
+  font-family: 'Playfair Display', serif;
+`
+
+const AbstractText = s.div`
+  margin-top: 0.5rem;
+  color: #707070;
+  font-family: 'Georgia', serif;
+`
+
+const UpdateWrapper = s.div`
+  margin-top: 1rem;
+  background: #F5F5F5;
+`
+
+const IMAGE_URL = (attachment_uuid, extension) =>
+  `https://snworksceo.imgix.net/dpn/${attachment_uuid}.sized-1000x1000.${extension}?w=1000`
+
+const Article = article => {
+  console.log(article)
+  const { abstract, headline, dominantMedia } = article.article
+  const {
+    attachment_uuid,
+    created_at,
+    extension,
+    content: imageContent
+  } = dominantMedia
+
+  if (!article) return null
+
+  return (
+    <ArticleWrapper>
+      <img className="img-fluid" src={IMAGE_URL(attachment_uuid, extension)} />
+      <HeadlineText> {headline} </HeadlineText>
+      <AbstractText dangerouslySetInnerHTML={{ __html: abstract }} />
+    </ArticleWrapper>
+  )
+}
+
+const LiveUpdate = update => {
+  return (
+    <UpdateWrapper>
+      dummy
+    </UpdateWrapper>
+  )
+}
+
 const Home = () => {
   const [articles, setArticles] = useState(null)
 
@@ -37,7 +90,7 @@ const Home = () => {
     axios.get('/api/fetch?url=https://www.thedp.com/section/news.json').then(resp => {
       const { data } = resp
       console.log(resp.data)
-      setArticles(data.articles)
+      setArticles(data.articles.slice(0, 2))
     })
   }, [])
 
@@ -56,14 +109,14 @@ const Home = () => {
         <div className="row">
           <div className="col-md">
             <Title> Latest Stories </Title>
+            {articles && articles.map(article => <Article article={article} />)}
           </div>
           <div className="col-md">
             <Title> Live Updates </Title>
+            <LiveUpdate />
           </div>
         </div>
       </LatestDiv>
-
-      {articles && articles[0].abstract}
       
     </div>
   )
