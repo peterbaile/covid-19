@@ -12,6 +12,8 @@ const bodyParser = require('body-parser')
 // require('dotenv').config()
 
 nextApp.prepare().then(() => {
+  console.log("!!!!!")
+
   const app = express()
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
