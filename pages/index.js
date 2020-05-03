@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import s from 'styled-components'
 
+import NewsLetter from '../components/NewsLetter'
+
 const Background = s.div`
   background-image: url('/img/dark-background.png');
   border: 1px solid #707070;
@@ -36,15 +38,20 @@ const ArticleWrapper = s.div`
   margin-top: 1rem;
 `
 
+const MultimediaArticleWrapper = s.div`
+  margin-top: 1rem;
+  position: relative;
+`
+
 const HeadlineText = s.h4`
   margin-top: 0.5rem;
-  color: #283033;
+  color: ${({ color = '#283033' }) => color};
   font-family: 'Playfair Display', serif;
 `
 
 const AbstractText = s.div`
   margin-top: 0.5rem;
-  color: #707070;
+  color: ${({ color = '#707070' }) => color};
   font-family: 'Georgia', serif;
 `
 
@@ -129,9 +136,9 @@ const NavBar = () => {
   )
 }
 
-const Article = article => {
+const Article = ({ article, multimedia }) => {
   console.log(article)
-  const { abstract, headline, dominantMedia } = article.article
+  const { abstract, headline, dominantMedia } = article
   const {
     attachment_uuid,
     created_at,
@@ -140,6 +147,18 @@ const Article = article => {
   } = dominantMedia
 
   if (!article) return null
+
+  if (multimedia) {
+    return (
+      <MultimediaArticleWrapper>
+        <img className="img-fluid" src={IMAGE_URL(attachment_uuid, extension)} height="110%"/>
+        <div style={{ position: 'absolute', top: '8px', left: '16px' }}>
+          <HeadlineText color='#FFFFFF'> {headline} </HeadlineText>
+          <AbstractText dangerouslySetInnerHTML={{ __html: abstract }} color='#FFFFFF' />
+        </div>
+      </MultimediaArticleWrapper>
+    )
+  }
 
   return (
     <ArticleWrapper>
@@ -160,12 +179,17 @@ const LiveUpdate = update => {
 
 const Home = () => {
   const [articles, setArticles] = useState(null)
+  const [multimedia, setMultimedia] = useState(null)
 
-  useEffect(() => {
-    axios.get('/api/fetch?url=https://www.thedp.com/section/news.json').then(resp => {
+  useEffect(async () => {
+    await axios.get('/api/fetch?url=https://www.thedp.com/section/news.json').then(resp => {
       const { data } = resp
-      console.log(resp.data)
       setArticles(data.articles.slice(0, 2))
+    })
+
+    await axios.get('/api/fetch?url=https://www.thedp.com/section/multimedia.json').then(resp => {
+      const { data } = resp
+      setMultimedia(data.articles.slice(0, 2))
     })
   }, [])
 
@@ -210,7 +234,10 @@ const Home = () => {
             <LiveUpdate />
           </div>
         </div>
+        
+        
       </SectionDiv>
+      <NewsLetter />
 
       <Lines className="container" />
 
@@ -267,9 +294,9 @@ const Home = () => {
 
       <SectionDiv className="container" id="multimedia">
         <div className="row">
-          <div className="col-md">
+          <div className="col-md" style={{ borderRight: '1px solid #D8D2D2' }}>
             <Title> Multimedia </Title>
-            
+            {multimedia && <Article article={multimedia[0]} multimedia={true} />}
           </div>
           <div className="col-md">
 
