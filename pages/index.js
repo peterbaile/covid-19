@@ -151,7 +151,7 @@ const NavBar = () => {
 
 const Article = ({ article, multimedia }) => {
   console.log(article)
-  const { abstract, published_at, headline, dominantMedia, slug } = article.article
+  const { abstract, published_at, headline, dominantMedia, slug } = article
   const now = moment().subtract(16, 'hours')
   const {
     attachment_uuid,
