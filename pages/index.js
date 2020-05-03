@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 import s from 'styled-components'
 
 const Background = s.div`
@@ -8,6 +8,7 @@ const Background = s.div`
   border: 1px solid #707070;
   opacity: 1;
   text-align: center;
+  margin-top: 5rem;
 `
 
 const CoverImg = s.img`
@@ -21,12 +22,13 @@ const Title = s.div`
   text-align: left;
   font-size: 30px;
   font-family: 'Libre Franklin', sans-serif;
+  font-weight: 900;
   letter-spacing: 0px;
   color: #283033;
   opacity: 1;
 `
 
-const LatestDiv = s.div`
+const SectionDiv = s.div`
   margin-top: 2rem;
 `
 
@@ -51,8 +53,81 @@ const UpdateWrapper = s.div`
   background: #F5F5F5;
 `
 
+const Footer = s.div`
+  border: 1px solid #707070;
+  background-color: #000000;
+  color: #FFFFFF;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  padding: 1rem;
+  font-size: 80%;
+`
+
+const Lines = s.div`
+  border-top: 2px solid #707070;
+  height: 0.5rem;
+  border-bottom: 2px solid #707070;
+`
+
 const IMAGE_URL = (attachment_uuid, extension) =>
   `https://snworksceo.imgix.net/dpn/${attachment_uuid}.sized-1000x1000.${extension}?w=1000`
+
+const NavbarWrapper = s.nav`
+  font-size: 80%;
+  font-family: 'Libre Franklin', sans-serif;
+  position: fixed;
+  z-index: 1;
+`
+
+const NavText = s.text`
+  font-size: 80%;
+  font-family: 'Libre Franklin', sans-serif;
+  color: #283033;
+`
+
+const NavBar = () => {
+  return (
+    <NavbarWrapper class="navbar navbar-expand-lg">
+      <div class="navbar-collapse w-100 dual-collapse2 order-1 order-md-0 collapse">
+          <ul class="navbar-nav ml-auto text-center">
+            <li class="nav-item active">
+              <a class="nav-link" href="#"> <NavText> Latest Stories </NavText></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"> <NavText> Live Update </NavText></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"> <NavText> News</NavText> </a>
+            </li>
+          </ul>
+      </div>
+      <div class="mx-auto my-2 order-0 order-md-1 position-relative" style={{ textAlign: 'center' }}>
+        <a class="mx-auto" href="#">
+          <img src="/img/DP-Logo-Full.png" className="img-fluid" style={{ width: '60%' }} />
+        </a>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target=".dual-collapse2" aria-expanded="false">
+            <span class="navbar-toggler-icon" style={{ borderColor: 'black' }}></span>
+        </button>
+      </div>
+      <div class="navbar-collapse w-100 dual-collapse2 order-2 order-md-2 collapse">
+        <ul class="navbar-nav mr-auto text-center">
+          <li class="nav-item">
+            <a class="nav-link" href="#"> <NavText> Timeline </NavText> </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><NavText> Opinion </NavText></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"> <NavText> 34th Street </NavText> </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"> <NavText> Multimedia </NavText></a>
+          </li>
+        </ul>
+      </div>
+    </NavbarWrapper>
+  )
+}
 
 const Article = article => {
   console.log(article)
@@ -116,11 +191,13 @@ const Home = () => {
         <meta name="twitter:site" content="@dailypenn"/>
       </Head>
 
+      <NavBar />
+
       <Background>
         <CoverImg src="/img/Covering-COVID.png" className="img-fluid" />
       </Background>
 
-      <LatestDiv className="container">
+      <SectionDiv className="container">
         <div className="row">
           <div className="col-md">
             <Title> Latest Stories </Title>
@@ -131,8 +208,64 @@ const Home = () => {
             <LiveUpdate />
           </div>
         </div>
-      </LatestDiv>
+      </SectionDiv>
+
+      <Lines className="container" />
+
+      <SectionDiv className="container">
+        <div className="row">
+          <div className="col-md">
+            <Title> News </Title>
+          </div>
+          <div className="col-md">
+
+          </div>
+        </div>
+      </SectionDiv>
+
+      <Lines className="container" />
+
+      <SectionDiv className="container">
+        <div className="row">
+          <div className="col-md">
+            <Title> Timeline </Title>
+          </div>
+          <div className="col-md">
+
+          </div>
+        </div>
+      </SectionDiv>
+
+      <Lines className="container" />
+
+      <SectionDiv className="container">
+        <div className="row">
+          <div className="col-md">
+            <Title> Opinion </Title>
+            
+          </div>
+          <div className="col-md">
+
+          </div>
+          <div className="col-md">
+
+          </div>
+        </div>
+      </SectionDiv>
+
+      <Lines className="container" />
+
+      <SectionDiv className="container">
+        <div style={{ textAlign: 'center', fontFamily: 'Libre Franklin, sans-serif' }}>
+          For updates on music, things to do, read,
+          <br/>
+          and watch, check out <a href="https://www.34st.com/"  target="_blank" style={{ color: '#45BFBF' }}>34th Street</a>
+        </div>
+        
+      </SectionDiv>
       
+      <Footer> Made with 😷 by The Daily Pennsylvanian © 2020. All rights reserved. </Footer>
+
     </div>
   )
 }
