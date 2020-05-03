@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import moment from 'moment'
 import s from 'styled-components'
 
 import NewsLetter from '../components/NewsLetter'
@@ -92,6 +93,16 @@ const NavText = s.text`
   color: #283033;
 `
 
+const TimestampText = s.div`
+  margin-top: 0.5rem;
+  color: #696969	;
+  font-family: 'Georgia', serif;
+`
+const StyledLink = s.a`
+  color: #000000 !important;
+  text-decoration: none !important;
+`
+
 const NavBar = () => {
   return (
     <NavbarWrapper class="navbar navbar-expand-lg">
@@ -136,9 +147,12 @@ const NavBar = () => {
   )
 }
 
+
+
 const Article = ({ article, multimedia }) => {
   console.log(article)
-  const { abstract, headline, dominantMedia } = article
+  const { abstract, published_at, headline, dominantMedia, slug } = article.article
+  const now = moment().subtract(16, 'hours')
   const {
     attachment_uuid,
     created_at,
@@ -161,11 +175,48 @@ const Article = ({ article, multimedia }) => {
   }
 
   return (
+    <StyledLink href={`https://www.thedp.com/article/${slug}`}>
     <ArticleWrapper>
       <img className="img-fluid" src={IMAGE_URL(attachment_uuid, extension)} />
       <HeadlineText> {headline} </HeadlineText>
       <AbstractText dangerouslySetInnerHTML={{ __html: abstract }} />
+      {/* change to human readable time */}
+      <TimestampText> 
+        {(moment(published_at).isBefore(now, "minute")) ? moment(published_at).format('MMMM D') : moment(published_at).fromNow()} 
+      </TimestampText>
     </ArticleWrapper>
+    </StyledLink>
+  )
+}
+
+const SideArticle = article => {
+  const { published_at, headline, dominantMedia, slug } = article.article
+  const now = moment().subtract(16, 'hours')
+  const {
+    attachment_uuid,
+    created_at,
+    extension,
+    content: imageContent
+  } = dominantMedia
+
+  if (!article) return null
+
+  return (
+    <StyledLink href={`https://www.thedp.com/article/${slug}`}>
+    <ArticleWrapper>
+      <div className = "row">
+        <div className="col-md">
+          <HeadlineText> { headline } </HeadlineText>
+          <TimestampText> 
+            {(moment(published_at).isBefore(now, "minute")) ? moment(published_at).format('MMMM D') : moment(published_at).fromNow()} 
+          </TimestampText>
+        </div> 
+        <div className="col-md">
+          <img className="img-fluid" src={IMAGE_URL(attachment_uuid, extension)} />
+        </div> 
+      </div>
+    </ArticleWrapper>
+    </StyledLink>
   )
 }
 
@@ -179,11 +230,27 @@ const LiveUpdate = update => {
 
 const Home = () => {
   const [articles, setArticles] = useState(null)
+  const [newsCenterpiece, setNewsCenterpiece] = useState(null)
+  const [newsArticles, setNewsArticles] = useState(null)
+  const [opinionCenterpiece, setOpinionCenterpiece] = useState(null)
+  const [opinionArticles, setOpinionArticles] = useState(null)
   const [multimedia, setMultimedia] = useState(null)
 
   useEffect(async () => {
     await axios.get('/api/fetch?url=https://www.thedp.com/section/news.json').then(resp => {
       const { data } = resp
+      console.log(resp.data)
+      setArticles(data.articles.slice(0, 1))
+    })
+    axios.get('/api/fetch?url=https://www.thedp.com/section/news.json').then(resp => {
+      const { data } = resp
+      setNewsCenterpiece(data.articles.slice(0, 1))
+      setNewsArticles(data.articles.slice(1, 4))
+    })
+    axios.get('/api/fetch?url=https://www.thedp.com/section/opinion.json').then(resp => {
+      const { data } = resp
+      setOpinionCenterpiece(data.articles.slice(0, 2))
+      setOpinionArticles(data.articles.slice(2, 4))
       setArticles(data.articles.slice(0, 2))
     })
 
@@ -247,7 +314,14 @@ const Home = () => {
             <Title> News </Title>
           </div>
           <div className="col-md">
-
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md">
+          {newsCenterpiece && <Article article={newsCenterpiece[0]} />}
+          </div>
+          <div className="col-md">
+          {newsArticles && newsArticles.map(article => <SideArticle article={article} />)}
           </div>
         </div>
       </SectionDiv>
@@ -271,13 +345,23 @@ const Home = () => {
         <div className="row">
           <div className="col-md">
             <Title> Opinion </Title>
-            
           </div>
           <div className="col-md">
 
           </div>
           <div className="col-md">
 
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md">
+            {opinionCenterpiece && <Article article={opinionCenterpiece[0]} />}
+          </div>
+          <div className="col-md">
+            {opinionCenterpiece && <Article article={opinionCenterpiece[1]} />}
+          </div>
+          <div className="col-md">
+            {opinionArticles && opinionArticles.map(article => <SideArticle article={article} />)}
           </div>
         </div>
       </SectionDiv>
