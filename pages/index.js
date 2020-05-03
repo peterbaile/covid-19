@@ -91,13 +91,13 @@ const NavBar = () => {
       <div class="navbar-collapse w-100 dual-collapse2 order-1 order-md-0 collapse">
           <ul class="navbar-nav ml-auto text-center">
             <li class="nav-item active">
-              <a class="nav-link" href="#"> <NavText> Latest Stories </NavText></a>
+              <a class="nav-link" href="#latest"> <NavText> Latest Stories </NavText></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"> <NavText> Live Update </NavText></a>
+              <a class="nav-link" href="#latest"> <NavText> Live Update </NavText></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"> <NavText> News</NavText> </a>
+              <a class="nav-link" href="#news"> <NavText> News</NavText> </a>
             </li>
           </ul>
       </div>
@@ -106,22 +106,22 @@ const NavBar = () => {
           <img src="/img/DP-Logo-Full.png" className="img-fluid" style={{ width: '60%' }} />
         </a>
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target=".dual-collapse2" aria-expanded="false">
-            <span class="navbar-toggler-icon" style={{ borderColor: 'black' }}></span>
+          <span className="navbar-toggler-icon"><i class="fas fa-bars" /></span>
         </button>
       </div>
       <div class="navbar-collapse w-100 dual-collapse2 order-2 order-md-2 collapse">
         <ul class="navbar-nav mr-auto text-center">
           <li class="nav-item">
-            <a class="nav-link" href="#"> <NavText> Timeline </NavText> </a>
+            <a class="nav-link" href="#timeline"> <NavText> Timeline </NavText> </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"><NavText> Opinion </NavText></a>
+            <a class="nav-link" href="#opinion"><NavText> Opinion </NavText></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"> <NavText> 34th Street </NavText> </a>
+            <a class="nav-link" href="#34st"> <NavText> 34th Street </NavText> </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"> <NavText> Multimedia </NavText></a>
+            <a class="nav-link" href="#multimedia"> <NavText> Multimedia </NavText></a>
           </li>
         </ul>
       </div>
@@ -189,6 +189,8 @@ const Home = () => {
         {/* <meta name="twitter:description" content="Your guide to living at Penn"/> */}
         <meta name="twitter:url" content="https://thedp-covid-19.herokuapp.com/"/>
         <meta name="twitter:site" content="@dailypenn"/>
+        <link rel="stylesheet" href="" type="text/css"/>
+        {/* <script src="https://kit.fontawesome.com/667baf96e0.js" crossorigin="anonymous"></script> */}
       </Head>
 
       <NavBar />
@@ -197,7 +199,7 @@ const Home = () => {
         <CoverImg src="/img/Covering-COVID.png" className="img-fluid" />
       </Background>
 
-      <SectionDiv className="container">
+      <SectionDiv className="container" id="latest">
         <div className="row">
           <div className="col-md">
             <Title> Latest Stories </Title>
@@ -212,7 +214,7 @@ const Home = () => {
 
       <Lines className="container" />
 
-      <SectionDiv className="container">
+      <SectionDiv className="container" id="news">
         <div className="row">
           <div className="col-md">
             <Title> News </Title>
@@ -225,7 +227,7 @@ const Home = () => {
 
       <Lines className="container" />
 
-      <SectionDiv className="container">
+      <SectionDiv className="container" id="timeline">
         <div className="row">
           <div className="col-md">
             <Title> Timeline </Title>
@@ -238,7 +240,7 @@ const Home = () => {
 
       <Lines className="container" />
 
-      <SectionDiv className="container">
+      <SectionDiv className="container" id="opinion">
         <div className="row">
           <div className="col-md">
             <Title> Opinion </Title>
@@ -255,14 +257,27 @@ const Home = () => {
 
       <Lines className="container" />
 
-      <SectionDiv className="container">
-        <div style={{ textAlign: 'center', fontFamily: 'Libre Franklin, sans-serif' }}>
+      <SectionDiv className="container" id="34st">
+        <div style={{ textAlign: 'center', fontFamily: 'Libre Franklin, sans-serif', fontWeight: 900 }}>
           For updates on music, things to do, read,
           <br/>
           and watch, check out <a href="https://www.34st.com/"  target="_blank" style={{ color: '#45BFBF' }}>34th Street</a>
         </div>
-        
       </SectionDiv>
+
+      <SectionDiv className="container" id="multimedia">
+        <div className="row">
+          <div className="col-md">
+            <Title> Multimedia </Title>
+            
+          </div>
+          <div className="col-md">
+
+          </div>
+        </div>
+      </SectionDiv>
+
+      <Lines className="container" />
       
       <Footer> Made with 😷 by The Daily Pennsylvanian © 2020. All rights reserved. </Footer>
 
