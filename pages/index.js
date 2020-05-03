@@ -4,6 +4,8 @@ import axios from 'axios'
 import moment from 'moment'
 import s from 'styled-components'
 
+import NewsLetter from '../components/NewsLetter'
+
 const Background = s.div`
   background-image: url('/img/dark-background.png');
   border: 1px solid #707070;
@@ -37,15 +39,20 @@ const ArticleWrapper = s.div`
   margin-top: 1rem;
 `
 
+const MultimediaArticleWrapper = s.div`
+  margin-top: 1rem;
+  position: relative;
+`
+
 const HeadlineText = s.h4`
   margin-top: 0.5rem;
-  color: #283033;
+  color: ${({ color = '#283033' }) => color};
   font-family: 'Playfair Display', serif;
 `
 
 const AbstractText = s.div`
   margin-top: 0.5rem;
-  color: #707070;
+  color: ${({ color = '#707070' }) => color};
   font-family: 'Georgia', serif;
 `
 
@@ -102,13 +109,13 @@ const NavBar = () => {
       <div class="navbar-collapse w-100 dual-collapse2 order-1 order-md-0 collapse">
           <ul class="navbar-nav ml-auto text-center">
             <li class="nav-item active">
-              <a class="nav-link" href="#"> <NavText> Latest Stories </NavText></a>
+              <a class="nav-link" href="#latest"> <NavText> Latest Stories </NavText></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"> <NavText> Live Update </NavText></a>
+              <a class="nav-link" href="#latest"> <NavText> Live Update </NavText></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"> <NavText> News</NavText> </a>
+              <a class="nav-link" href="#news"> <NavText> News</NavText> </a>
             </li>
           </ul>
       </div>
@@ -117,22 +124,22 @@ const NavBar = () => {
           <img src="/img/DP-Logo-Full.png" className="img-fluid" style={{ width: '60%' }} />
         </a>
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target=".dual-collapse2" aria-expanded="false">
-            <span class="navbar-toggler-icon" style={{ borderColor: 'black' }}></span>
+          <span className="navbar-toggler-icon"><i class="fas fa-bars" /></span>
         </button>
       </div>
       <div class="navbar-collapse w-100 dual-collapse2 order-2 order-md-2 collapse">
         <ul class="navbar-nav mr-auto text-center">
           <li class="nav-item">
-            <a class="nav-link" href="#"> <NavText> Timeline </NavText> </a>
+            <a class="nav-link" href="#timeline"> <NavText> Timeline </NavText> </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"><NavText> Opinion </NavText></a>
+            <a class="nav-link" href="#opinion"><NavText> Opinion </NavText></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"> <NavText> 34th Street </NavText> </a>
+            <a class="nav-link" href="#34st"> <NavText> 34th Street </NavText> </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"> <NavText> Multimedia </NavText></a>
+            <a class="nav-link" href="#multimedia"> <NavText> Multimedia </NavText></a>
           </li>
         </ul>
       </div>
@@ -141,7 +148,8 @@ const NavBar = () => {
 }
 
 
-const Article = article => {
+
+const Article = ({ article, multimedia }) => {
   console.log(article)
   const { abstract, published_at, headline, dominantMedia, slug } = article.article
   const now = moment().subtract(16, 'hours')
@@ -153,6 +161,18 @@ const Article = article => {
   } = dominantMedia
 
   if (!article) return null
+
+  if (multimedia) {
+    return (
+      <MultimediaArticleWrapper>
+        <img className="img-fluid" src={IMAGE_URL(attachment_uuid, extension)} height="110%"/>
+        <div style={{ position: 'absolute', top: '8px', left: '16px' }}>
+          <HeadlineText color='#FFFFFF'> {headline} </HeadlineText>
+          <AbstractText dangerouslySetInnerHTML={{ __html: abstract }} color='#FFFFFF' />
+        </div>
+      </MultimediaArticleWrapper>
+    )
+  }
 
   return (
     <StyledLink href={`https://www.thedp.com/article/${slug}`}>
@@ -214,9 +234,10 @@ const Home = () => {
   const [newsArticles, setNewsArticles] = useState(null)
   const [opinionCenterpiece, setOpinionCenterpiece] = useState(null)
   const [opinionArticles, setOpinionArticles] = useState(null)
+  const [multimedia, setMultimedia] = useState(null)
 
-  useEffect(() => {
-    axios.get('/api/fetch?url=https://www.thedp.com/section/news.json').then(resp => {
+  useEffect(async () => {
+    await axios.get('/api/fetch?url=https://www.thedp.com/section/news.json').then(resp => {
       const { data } = resp
       console.log(resp.data)
       setArticles(data.articles.slice(0, 1))
@@ -230,6 +251,12 @@ const Home = () => {
       const { data } = resp
       setOpinionCenterpiece(data.articles.slice(0, 2))
       setOpinionArticles(data.articles.slice(2, 4))
+      setArticles(data.articles.slice(0, 2))
+    })
+
+    await axios.get('/api/fetch?url=https://www.thedp.com/section/multimedia.json').then(resp => {
+      const { data } = resp
+      setMultimedia(data.articles.slice(0, 2))
     })
   }, [])
 
@@ -253,6 +280,8 @@ const Home = () => {
         {/* <meta name="twitter:description" content="Your guide to living at Penn"/> */}
         <meta name="twitter:url" content="https://thedp-covid-19.herokuapp.com/"/>
         <meta name="twitter:site" content="@dailypenn"/>
+        <link rel="stylesheet" href="" type="text/css"/>
+        {/* <script src="https://kit.fontawesome.com/667baf96e0.js" crossorigin="anonymous"></script> */}
       </Head>
 
       <NavBar />
@@ -261,7 +290,7 @@ const Home = () => {
         <CoverImg src="/img/Covering-COVID.png" className="img-fluid" />
       </Background>
 
-      <SectionDiv className="container">
+      <SectionDiv className="container" id="latest">
         <div className="row">
           <div className="col-md">
             <Title> Latest Stories </Title>
@@ -272,11 +301,14 @@ const Home = () => {
             <LiveUpdate />
           </div>
         </div>
+        
+        
       </SectionDiv>
+      <NewsLetter />
 
       <Lines className="container" />
 
-      <SectionDiv className="container">
+      <SectionDiv className="container" id="news">
         <div className="row">
           <div className="col-md">
             <Title> News </Title>
@@ -296,7 +328,7 @@ const Home = () => {
 
       <Lines className="container" />
 
-      <SectionDiv className="container">
+      <SectionDiv className="container" id="timeline">
         <div className="row">
           <div className="col-md">
             <Title> Timeline </Title>
@@ -309,7 +341,7 @@ const Home = () => {
 
       <Lines className="container" />
 
-      <SectionDiv className="container">
+      <SectionDiv className="container" id="opinion">
         <div className="row">
           <div className="col-md">
             <Title> Opinion </Title>
@@ -336,14 +368,27 @@ const Home = () => {
 
       <Lines className="container" />
 
-      <SectionDiv className="container">
-        <div style={{ textAlign: 'center', fontFamily: 'Libre Franklin, sans-serif' }}>
+      <SectionDiv className="container" id="34st">
+        <div style={{ textAlign: 'center', fontFamily: 'Libre Franklin, sans-serif', fontWeight: 900 }}>
           For updates on music, things to do, read,
           <br/>
           and watch, check out <a href="https://www.34st.com/"  target="_blank" style={{ color: '#45BFBF' }}>34th Street</a>
         </div>
-        
       </SectionDiv>
+
+      <SectionDiv className="container" id="multimedia">
+        <div className="row">
+          <div className="col-md" style={{ borderRight: '1px solid #D8D2D2' }}>
+            <Title> Multimedia </Title>
+            {multimedia && <Article article={multimedia[0]} multimedia={true} />}
+          </div>
+          <div className="col-md">
+
+          </div>
+        </div>
+      </SectionDiv>
+
+      <Lines className="container" />
       
       <Footer> Made with 😷 by The Daily Pennsylvanian © 2020. All rights reserved. </Footer>
 
