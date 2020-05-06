@@ -41,6 +41,9 @@ const ArticleWrapper = s.div`
 
 const MultimediaArticleWrapper = s.div`
   margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
   position: relative;
 `
 
@@ -150,7 +153,6 @@ const NavBar = () => {
 
 
 const Article = ({ article, multimedia }) => {
-  console.log(article)
   const { abstract, published_at, headline, dominantMedia, slug } = article
   const now = moment().subtract(16, 'hours')
   const {
@@ -164,6 +166,7 @@ const Article = ({ article, multimedia }) => {
 
   if (multimedia) {
     return (
+      <StyledLink href={`https://www.thedp.com/article/${slug}`}>
       <MultimediaArticleWrapper>
         <img className="img-fluid" src={IMAGE_URL(attachment_uuid, extension)} height="110%"/>
         <div style={{ position: 'absolute', top: '8px', left: '16px' }}>
@@ -171,6 +174,7 @@ const Article = ({ article, multimedia }) => {
           <AbstractText dangerouslySetInnerHTML={{ __html: abstract }} color='#FFFFFF' />
         </div>
       </MultimediaArticleWrapper>
+      </StyledLink>
     )
   }
 
@@ -189,8 +193,8 @@ const Article = ({ article, multimedia }) => {
   )
 }
 
-const SideArticle = article => {
-  const { published_at, headline, dominantMedia, slug } = article.article
+const SideArticle = ({ article, multimedia }) => {
+  const { abstract, published_at, headline, dominantMedia, slug } = article
   const now = moment().subtract(16, 'hours')
   const {
     attachment_uuid,
@@ -200,6 +204,20 @@ const SideArticle = article => {
   } = dominantMedia
 
   if (!article) return null
+
+  if (multimedia) {
+    return (
+      <StyledLink href={`https://www.thedp.com/article/${slug}`}>
+      <MultimediaArticleWrapper>
+        <img className="img-fluid" src={IMAGE_URL(attachment_uuid, extension)} height="110%"/>
+        <div style={{ position: 'absolute', top: '8px', left: '16px' }}>
+          <HeadlineText color='#FFFFFF'> {headline} </HeadlineText>
+          <AbstractText dangerouslySetInnerHTML={{ __html: abstract }} color='#FFFFFF' />
+        </div>
+      </MultimediaArticleWrapper>
+      </StyledLink>
+    )
+  }
 
   return (
     <StyledLink href={`https://www.thedp.com/article/${slug}`}>
@@ -239,15 +257,14 @@ const Home = () => {
   useEffect(async () => {
     await axios.get('/api/fetch?url=https://www.thedp.com/section/news.json').then(resp => {
       const { data } = resp
-      console.log(resp.data)
       setArticles(data.articles.slice(0, 1))
     })
-    axios.get('/api/fetch?url=https://www.thedp.com/section/news.json').then(resp => {
+    await axios.get('/api/fetch?url=https://www.thedp.com/section/news.json').then(resp => {
       const { data } = resp
       setNewsCenterpiece(data.articles.slice(0, 1))
       setNewsArticles(data.articles.slice(1, 4))
     })
-    axios.get('/api/fetch?url=https://www.thedp.com/section/opinion.json').then(resp => {
+    await axios.get('/api/fetch?url=https://www.thedp.com/section/opinion.json').then(resp => {
       const { data } = resp
       setOpinionCenterpiece(data.articles.slice(0, 2))
       setOpinionArticles(data.articles.slice(2, 4))
@@ -256,7 +273,7 @@ const Home = () => {
 
     await axios.get('/api/fetch?url=https://www.thedp.com/section/multimedia.json').then(resp => {
       const { data } = resp
-      setMultimedia(data.articles.slice(0, 2))
+      setMultimedia(data.articles.slice(0, 3))
     })
   }, [])
 
@@ -334,7 +351,6 @@ const Home = () => {
             <Title> Timeline </Title>
           </div>
           <div className="col-md">
-
           </div>
         </div>
       </SectionDiv>
@@ -347,10 +363,6 @@ const Home = () => {
             <Title> Opinion </Title>
           </div>
           <div className="col-md">
-
-          </div>
-          <div className="col-md">
-
           </div>
         </div>
         <div className="row">
@@ -376,14 +388,28 @@ const Home = () => {
         </div>
       </SectionDiv>
 
+      <Lines className="container" />
+
       <SectionDiv className="container" id="multimedia">
-        <div className="row">
-          <div className="col-md" style={{ borderRight: '1px solid #D8D2D2' }}>
+      <div className="row">
+          <div className="col-md">
             <Title> Multimedia </Title>
-            {multimedia && <Article article={multimedia[0]} multimedia={true} />}
           </div>
           <div className="col-md">
 
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md" style={{ borderRight: '1px solid #D8D2D2' }}>
+            {multimedia && <Article article={multimedia[0]} multimedia={true} />}
+          </div>
+          <div className="col-md">
+            <div className="row" style={{ borderBottom: '1px solid #D8D2D2' }}>
+            {multimedia && <SideArticle article={multimedia[1]} multimedia={true} />}
+            </div>
+            <div className="row">
+            {multimedia && <SideArticle article={multimedia[2]} multimedia={true} />}
+            </div>
           </div>
         </div>
       </SectionDiv>
