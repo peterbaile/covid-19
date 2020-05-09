@@ -10,11 +10,13 @@
   "dependencies": {
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
+    "cheerio": "^1.0.0-rc.3",
     "express": "^4.17.1",
     "moment": "^2.25.1",
     "next": "^9.3.6",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-loading-skeleton": "^2.0.1",
     "styled-components": "^5.1.0"
   }
 }

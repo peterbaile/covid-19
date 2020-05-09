@@ -1,10 +1,17 @@
-import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import moment from 'moment'
 import s from 'styled-components'
+import Skeleton from 'react-loading-skeleton'
 
+import Article from '../components/Article'
+import LiveUpdate from '../components/LiveUpdate'
+import NavBar from '../components/Nav'
 import NewsLetter from '../components/NewsLetter'
+import SideArticle from '../components/SideArticle'
+import Header from '../components/Header'
+import Loading from '../components/Loading'
+
+import { Title } from '../components/shared'
 
 const Background = s.div`
   background-image: url('/img/dark-background.png');
@@ -19,49 +26,9 @@ const CoverImg = s.img`
   margin: 1rem 0;
 `
 
-const Title = s.div`
-  border-left: 12px solid #D12D4A;
-  padding: 0rem 1rem;
-  text-align: left;
-  font-size: 30px;
-  font-family: 'Libre Franklin', sans-serif;
-  font-weight: 900;
-  letter-spacing: 0px;
-  color: #283033;
-  opacity: 1;
-`
-
 const SectionDiv = s.div`
   margin-top: 2rem;
-`
-
-const ArticleWrapper = s.div`
-  margin-top: 1rem;
-`
-
-const MultimediaArticleWrapper = s.div`
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  position: relative;
-`
-
-const HeadlineText = s.h4`
-  margin-top: 0.5rem;
-  color: ${({ color = '#283033' }) => color};
-  font-family: 'Playfair Display', serif;
-`
-
-const AbstractText = s.div`
-  margin-top: 0.5rem;
-  color: ${({ color = '#707070' }) => color};
-  font-family: 'Georgia', serif;
-`
-
-const UpdateWrapper = s.div`
-  margin-top: 1rem;
-  background: #F5F5F5;
+  margin-bottom: 2rem;
 `
 
 const Footer = s.div`
@@ -80,226 +47,48 @@ const Lines = s.div`
   border-bottom: 2px solid #707070;
 `
 
-const IMAGE_URL = (attachment_uuid, extension) =>
-  `https://snworksceo.imgix.net/dpn/${attachment_uuid}.sized-1000x1000.${extension}?w=1000`
-
-const NavbarWrapper = s.nav`
-  font-size: 80%;
-  font-family: 'Libre Franklin', sans-serif;
-  position: fixed;
-  z-index: 1;
-`
-
-const NavText = s.text`
-  font-size: 80%;
-  font-family: 'Libre Franklin', sans-serif;
-  color: #283033;
-`
-
-const TimestampText = s.div`
-  margin-top: 0.5rem;
-  color: #696969	;
-  font-family: 'Georgia', serif;
-`
-const StyledLink = s.a`
-  color: #000000 !important;
-  text-decoration: none !important;
-`
-
-const NavBar = () => {
-  return (
-    <NavbarWrapper class="navbar navbar-expand-lg">
-      <div class="navbar-collapse w-100 dual-collapse2 order-1 order-md-0 collapse">
-          <ul class="navbar-nav ml-auto text-center">
-            <li class="nav-item active">
-              <a class="nav-link" href="#latest"> <NavText> Latest Stories </NavText></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#latest"> <NavText> Live Update </NavText></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#news"> <NavText> News</NavText> </a>
-            </li>
-          </ul>
-      </div>
-      <div class="mx-auto my-2 order-0 order-md-1 position-relative" style={{ textAlign: 'center' }}>
-        <a class="mx-auto" href="#">
-          <img src="/img/DP-Logo-Full.png" className="img-fluid" style={{ width: '60%' }} />
-        </a>
-        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target=".dual-collapse2" aria-expanded="false">
-          <span className="navbar-toggler-icon"><i class="fas fa-bars" /></span>
-        </button>
-      </div>
-      <div class="navbar-collapse w-100 dual-collapse2 order-2 order-md-2 collapse">
-        <ul class="navbar-nav mr-auto text-center">
-          <li class="nav-item">
-            <a class="nav-link" href="#timeline"> <NavText> Timeline </NavText> </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#opinion"><NavText> Opinion </NavText></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#34st"> <NavText> 34th Street </NavText> </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#multimedia"> <NavText> Multimedia </NavText></a>
-          </li>
-        </ul>
-      </div>
-    </NavbarWrapper>
-  )
-}
-
-
-
-const Article = ({ article, multimedia }) => {
-  const { abstract, published_at, headline, dominantMedia, slug } = article
-  const now = moment().subtract(16, 'hours')
-  const {
-    attachment_uuid,
-    created_at,
-    extension,
-    content: imageContent
-  } = dominantMedia
-
-  if (!article) return null
-
-  if (multimedia) {
-    return (
-      <StyledLink href={`https://www.thedp.com/article/${slug}`}>
-      <MultimediaArticleWrapper>
-        <img className="img-fluid" src={IMAGE_URL(attachment_uuid, extension)} height="110%"/>
-        <div style={{ position: 'absolute', top: '8px', left: '16px' }}>
-          <HeadlineText color='#FFFFFF'> {headline} </HeadlineText>
-          <AbstractText dangerouslySetInnerHTML={{ __html: abstract }} color='#FFFFFF' />
-        </div>
-      </MultimediaArticleWrapper>
-      </StyledLink>
-    )
-  }
-
-  return (
-    <StyledLink href={`https://www.thedp.com/article/${slug}`}>
-    <ArticleWrapper>
-      <img className="img-fluid" src={IMAGE_URL(attachment_uuid, extension)} />
-      <HeadlineText> {headline} </HeadlineText>
-      <AbstractText dangerouslySetInnerHTML={{ __html: abstract }} />
-      {/* change to human readable time */}
-      <TimestampText> 
-        {(moment(published_at).isBefore(now, "minute")) ? moment(published_at).format('MMMM D') : moment(published_at).fromNow()} 
-      </TimestampText>
-    </ArticleWrapper>
-    </StyledLink>
-  )
-}
-
-const SideArticle = ({ article, multimedia }) => {
-  const { abstract, published_at, headline, dominantMedia, slug } = article
-  const now = moment().subtract(16, 'hours')
-  const {
-    attachment_uuid,
-    created_at,
-    extension,
-    content: imageContent
-  } = dominantMedia
-
-  if (!article) return null
-
-  if (multimedia) {
-    return (
-      <StyledLink href={`https://www.thedp.com/article/${slug}`}>
-      <MultimediaArticleWrapper>
-        <img className="img-fluid" src={IMAGE_URL(attachment_uuid, extension)} height="110%"/>
-        <div style={{ position: 'absolute', top: '8px', left: '16px' }}>
-          <HeadlineText color='#FFFFFF'> {headline} </HeadlineText>
-          <AbstractText dangerouslySetInnerHTML={{ __html: abstract }} color='#FFFFFF' />
-        </div>
-      </MultimediaArticleWrapper>
-      </StyledLink>
-    )
-  }
-
-  return (
-    <StyledLink href={`https://www.thedp.com/article/${slug}`}>
-    <ArticleWrapper>
-      <div className = "row">
-        <div className="col-md">
-          <HeadlineText> { headline } </HeadlineText>
-          <TimestampText> 
-            {(moment(published_at).isBefore(now, "minute")) ? moment(published_at).format('MMMM D') : moment(published_at).fromNow()} 
-          </TimestampText>
-        </div> 
-        <div className="col-md">
-          <img className="img-fluid" src={IMAGE_URL(attachment_uuid, extension)} />
-        </div> 
-      </div>
-    </ArticleWrapper>
-    </StyledLink>
-  )
-}
-
-const LiveUpdate = update => {
-  return (
-    <UpdateWrapper>
-      dummy
-    </UpdateWrapper>
-  )
-}
-
-const Home = () => {
-  const [articles, setArticles] = useState(null)
+const Home = ({ latestStories }) => {
+  const [liveUpdates, setLiveUpdates] = useState(null)
   const [newsCenterpiece, setNewsCenterpiece] = useState(null)
   const [newsArticles, setNewsArticles] = useState(null)
   const [opinionCenterpiece, setOpinionCenterpiece] = useState(null)
   const [opinionArticles, setOpinionArticles] = useState(null)
-  const [multimedia, setMultimedia] = useState(null)
+  const [multimediaArticles, setMultimediaArticles] = useState(null)
+  const [lvLoading, setLVLoading] = useState(true)
+  const [newsLoading, setNewsLoading] = useState(true)
+  const [mmloading, setMMLoading] = useState(true)
+  
 
   useEffect(async () => {
-    await axios.get('/api/fetch?url=https://www.thedp.com/section/news.json').then(resp => {
+    await axios.get('/api/live-updates').then(resp => {
       const { data } = resp
-      setArticles(data.articles.slice(0, 1))
+      setLiveUpdates(data)
+      setLVLoading(false)
     })
-    await axios.get('/api/fetch?url=https://www.thedp.com/section/news.json').then(resp => {
+
+    await axios.get('/api/fetch?url=https://www.thedp.com/section/news-covid.json').then(resp => {
       const { data } = resp
       setNewsCenterpiece(data.articles.slice(0, 1))
+      setNewsLoading(false)
       setNewsArticles(data.articles.slice(1, 4))
     })
+
     await axios.get('/api/fetch?url=https://www.thedp.com/section/opinion.json').then(resp => {
       const { data } = resp
       setOpinionCenterpiece(data.articles.slice(0, 2))
       setOpinionArticles(data.articles.slice(2, 4))
-      setArticles(data.articles.slice(0, 2))
     })
 
     await axios.get('/api/fetch?url=https://www.thedp.com/section/multimedia.json').then(resp => {
       const { data } = resp
-      setMultimedia(data.articles.slice(0, 3))
+      setMultimediaArticles(data.articles.slice(0, 3))
+      setMMLoading(false)
     })
   }, [])
 
   return (
     <div>
-      <Head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>COVID-19 | The Daily Pennsylvanian</title>
-        {/* <link rel="icon" href="/favicon.ico" /> */}
-
-        <meta property="og:title" content="COVID-19 | The Daily Pennsylvanian"/>
-        {/* <meta property="og:image" content="https://snworksceo.imgix.net/dpn/9ae93a96-5757-4a4c-b43e-299c186a6f92.sized-1000x1000.png" /> */}
-        {/* <meta property="og:description" content="Your guide to living at Penn"/> */}
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://thedp-covid-19.herokuapp.com/"/>
-
-        <meta name="twitter:card" content="summary_large_image"/>
-        <meta name="twitter:title" content="COVID-19 | The Daily Pennsylvanian"/>
-        {/* <meta name="twitter:image" content="https://snworksceo.imgix.net/dpn/9ae93a96-5757-4a4c-b43e-299c186a6f92.sized-1000x1000.png" /> */}
-        {/* <meta name="twitter:description" content="Your guide to living at Penn"/> */}
-        <meta name="twitter:url" content="https://thedp-covid-19.herokuapp.com/"/>
-        <meta name="twitter:site" content="@dailypenn"/>
-        <link rel="stylesheet" href="" type="text/css"/>
-        {/* <script src="https://kit.fontawesome.com/667baf96e0.js" crossorigin="anonymous"></script> */}
-      </Head>
+      <Header />
 
       <NavBar />
 
@@ -311,16 +100,15 @@ const Home = () => {
         <div className="row">
           <div className="col-md">
             <Title> Latest Stories </Title>
-            {articles && articles.map(article => <Article article={article} />)}
+            {latestStories && latestStories.map(article => <Article article={article} />)}
           </div>
           <div className="col-md">
             <Title> Live Updates </Title>
-            <LiveUpdate />
+            <LiveUpdate liveUpdates={liveUpdates} loading={lvLoading} />
           </div>
         </div>
-        
-        
       </SectionDiv>
+
       <NewsLetter />
 
       <Lines className="container" />
@@ -335,10 +123,11 @@ const Home = () => {
         </div>
         <div className="row">
           <div className="col-md">
-          {newsCenterpiece && <Article article={newsCenterpiece[0]} />}
+            <Loading loading={newsLoading} />
+            {newsCenterpiece && <Article article={newsCenterpiece[0]} />}
           </div>
           <div className="col-md">
-          {newsArticles && newsArticles.map(article => <SideArticle article={article} />)}
+            {newsArticles && newsArticles.map(article => <SideArticle article={article} />)}
           </div>
         </div>
       </SectionDiv>
@@ -391,24 +180,20 @@ const Home = () => {
       <Lines className="container" />
 
       <SectionDiv className="container" id="multimedia">
-      <div className="row">
-          <div className="col-md">
-            <Title> Multimedia </Title>
-          </div>
-          <div className="col-md">
-
-          </div>
-        </div>
+        <Title> Multimedia </Title>
         <div className="row">
           <div className="col-md" style={{ borderRight: '1px solid #D8D2D2' }}>
-            {multimedia && <Article article={multimedia[0]} multimedia={true} />}
+            <Loading loading={mmloading} />
+            {multimediaArticles && <Article article={multimediaArticles[0]} multimedia={true} />}
           </div>
           <div className="col-md">
-            <div className="row" style={{ borderBottom: '1px solid #D8D2D2' }}>
-            {multimedia && <SideArticle article={multimedia[1]} multimedia={true} />}
+            <div style={{ borderBottom: '1px solid #D8D2D2' }}>
+              <Loading loading={mmloading} />
+              {multimediaArticles && <SideArticle article={multimediaArticles[1]} multimedia={true} />}
             </div>
-            <div className="row">
-            {multimedia && <SideArticle article={multimedia[2]} multimedia={true} />}
+            <div>
+              <Loading loading={mmloading} />
+              {multimediaArticles && <SideArticle article={multimediaArticles[2]} multimedia={true} />}
             </div>
           </div>
         </div>
@@ -417,9 +202,48 @@ const Home = () => {
       <Lines className="container" />
       
       <Footer> Made with 😷 by The Daily Pennsylvanian © 2020. All rights reserved. </Footer>
-
     </div>
   )
+}
+
+export async function getServerSideProps({ req }) {
+  const BASE = req ? `${req.protocol}://${req.get('Host')}` : '';
+
+  // fetch latest stories
+  let resp = await axios.get(`${BASE}/api/fetch?url=https://www.thedp.com/section/latest-covid.json`)
+  let { data: { articles } } = resp
+  const latestStories = articles.slice(0, 2)
+
+  // decide not to use getserversideprops for the following because
+  // this will take too long to load the page
+
+  // // fetch news articles
+  // resp = await axios.get(`${BASE}/api/fetch?url=https://www.thedp.com/section/news-covid.json`)
+  // articles = resp.data.articles
+  // const newsCenterpiece = articles.slice(0, 1)
+  // const newsArticles = articles.slice(1, 4)
+
+  // // fetch opinion articles
+  // resp = await axios.get(`${BASE}/api/fetch?url=https://www.thedp.com/section/opinion.json`)
+  // articles = resp.data.articles
+  // const opinionCenterpiece = articles.slice(0, 2)
+  // const opinionArticles = articles.slice(2, 4)
+
+  // // fetch multimedia articles
+  // resp = await axios.get(`${BASE}/api/fetch?url=https://www.thedp.com/section/multimedia.json`)
+  // articles = resp.data.articles
+  // const multimediaArticles = articles.slice(0, 3)
+
+  return {
+    props: {
+      latestStories,
+      // newsCenterpiece,
+      // newsArticles,
+      // opinionArticles,
+      // opinionCenterpiece,
+      // multimediaArticles
+    }
+  }
 }
 
 export default Home
