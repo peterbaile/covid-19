@@ -35,6 +35,19 @@ export const Title = s.div`
   opacity: 1;
 `
 
+export const LiveUpdateTitle = s.h4`
+  font-family: 'Libre Franklin', sans-serif;
+  font-weight: 900;
+  color: #464242;
+`
+
+export const LiveUpdateText = s.p`
+  margin-top: 1rem;
+  color: ${({ color = '#707070' }) => color};
+  font-family: 'Georgia', serif;
+  font-size: 80%;
+`
+
 export const TimestampText = s.div`
   margin-top: 0.5rem;
   color: #696969	;

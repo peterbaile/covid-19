@@ -15,6 +15,8 @@ export const MultimediaArticleWrapper = s.div`
 export const UpdateWrapper = s.div`
   margin-top: 1rem;
   background: #F5F5F5;
+  padding: 2rem;
+  margin-bottom: 1rem;
 `
 
 export const NavbarWrapper = s.nav`

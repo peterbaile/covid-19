@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import s from 'styled-components'
-import Skeleton from 'react-loading-skeleton'
 
 import Article from '../components/Article'
 import LiveUpdate from '../components/LiveUpdate'
