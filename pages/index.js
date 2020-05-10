@@ -14,7 +14,7 @@ import StreetCenter from '../components/StreetCenter'
 
 import { Title } from '../components/shared'
 import StreetArticle from '../components/StreetArticle'
-
+import { initGA, logPageView } from '../utils/analytics'
 
 const Background = s.div`
   background-image: url('/img/dark-background.png');
@@ -89,6 +89,9 @@ const Home = ({ latestStories }) => {
   
 
   useEffect(async () => {
+    initGA()
+    logPageView()
+
     await axios.get('/api/live-updates').then(resp => {
       const { data } = resp
       setLiveUpdates(data)
