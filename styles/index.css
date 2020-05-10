@@ -1,7 +1,7 @@
 @import url("https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css");
 @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@900&family=Playfair+Display:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@600&family=Roboto:wght@100&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin&family=Roboto&display=swap');
-@import url('http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
 
 html {
   scroll-behavior: smooth;

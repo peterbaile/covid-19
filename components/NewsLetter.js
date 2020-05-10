@@ -2,7 +2,7 @@ import s from 'styled-components'
 
 const Background = s.div`
   text-align: center;
-  margin: 5rem 20% 0rem 20%;
+  margin: 0 20% 0rem 20%;
   position: relative;
 `
 

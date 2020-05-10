@@ -11,16 +11,23 @@ export const NavText = s.text`
   color: #283033;
 `
 
+export const HeadlineText = s.div`
+  margin-top: 0.5rem;
+  color: ${({ color = '#283033' }) => color};
+  font-family: 'Playfair Display', serif;
+  font-size: ${({ sideArticle }) => sideArticle ? '100%' : '150%'};
+`
+
 export const AbstractText = s.div`
   margin-top: 0.5rem;
   color: ${({ color = '#707070' }) => color};
   font-family: 'Georgia', serif;
 `
 
-export const HeadlineText = s.h4`
+export const TimestampText = s.div`
   margin-top: 0.5rem;
-  color: ${({ color = '#283033' }) => color};
-  font-family: 'Playfair Display', serif;
+  color: ${({ color = '#696969' }) => color};
+  font-family: 'Roboto', sans-serif;
 `
 
 export const Title = s.div`
@@ -48,8 +55,9 @@ export const LiveUpdateText = s.p`
   font-size: 80%;
 `
 
-export const TimestampText = s.div`
+export const TagText = s.div`
   margin-top: 0.5rem;
-  color: #696969	;
-  font-family: 'Georgia', serif;
+  color: ${({ color = '#B5B4B4' }) => color};
+  font-family: 'Roboto', sans-serif;
+  ${({ weightLight }) => weightLight ? 'font-weight: 100;' : '' }
 `

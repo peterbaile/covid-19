@@ -9,20 +9,23 @@ import NewsLetter from '../components/NewsLetter'
 import SideArticle from '../components/SideArticle'
 import Header from '../components/Header'
 import Loading from '../components/Loading'
+import SideLoading from '../components/SideLoading'
+import StreetCenter from '../components/StreetCenter'
 
 import { Title } from '../components/shared'
+import StreetArticle from '../components/StreetArticle'
+
 
 const Background = s.div`
   background-image: url('/img/dark-background.png');
   border: 1px solid #707070;
   opacity: 1;
   text-align: center;
-  margin-top: 5rem;
 `
 
 const CoverImg = s.img`
-  width: 60%;
-  margin: 1rem 0;
+  padding: 1rem 0;
+  max-height: 250px;
 `
 
 const SectionDiv = s.div`
@@ -31,6 +34,7 @@ const SectionDiv = s.div`
 `
 
 const Footer = s.div`
+  margin-top: 2rem;
   border: 1px solid #707070;
   background-color: #000000;
   color: #FFFFFF;
@@ -46,16 +50,42 @@ const Lines = s.div`
   border-bottom: 2px solid #707070;
 `
 
+const UpdateLinkDiv = s.div`
+  background-color: #283033;
+  font-family: 'Libre Franklin', sans-serif;
+  font-weight: 900;
+  font-size: 70%;
+  color: #FFFFFF;
+  width: 60%;
+  margin: auto;
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+`
+
+const TimelineDiv = s.div`
+  background-color: #F7F7F7;
+  margin: auto;
+  text-align: center;
+  height: 200px;
+  font-family: 'Playfair Display', serif;
+  font-size: 150%;
+  margin-top: 2rem;
+`
+
 const Home = ({ latestStories }) => {
   const [liveUpdates, setLiveUpdates] = useState(null)
   const [newsCenterpiece, setNewsCenterpiece] = useState(null)
   const [newsArticles, setNewsArticles] = useState(null)
   const [opinionCenterpiece, setOpinionCenterpiece] = useState(null)
   const [opinionArticles, setOpinionArticles] = useState(null)
+  const [streetCenter, setStreetCenter] = useState(null)
+  const [streetArticles, setStreetArticles] = useState(null)
   const [multimediaArticles, setMultimediaArticles] = useState(null)
   const [lvLoading, setLVLoading] = useState(true)
   const [newsLoading, setNewsLoading] = useState(true)
   const [mmloading, setMMLoading] = useState(true)
+  const [opinionLoading, setOpinionLoading] = useState(true)
+  const [streetLoading, setStreetLoading] = useState(true)
   
 
   useEffect(async () => {
@@ -68,14 +98,22 @@ const Home = ({ latestStories }) => {
     await axios.get('/api/fetch?url=https://www.thedp.com/section/news-covid.json').then(resp => {
       const { data } = resp
       setNewsCenterpiece(data.articles.slice(0, 1))
-      setNewsLoading(false)
       setNewsArticles(data.articles.slice(1, 4))
+      setNewsLoading(false)
     })
 
     await axios.get('/api/fetch?url=https://www.thedp.com/section/opinion.json').then(resp => {
       const { data } = resp
       setOpinionCenterpiece(data.articles.slice(0, 2))
       setOpinionArticles(data.articles.slice(2, 4))
+      setOpinionLoading(false)
+    })
+
+    await axios.get('/api/fetch?url=https://www.34st.com/section/article.json').then(resp => {
+      const { data } = resp
+      setStreetCenter(data.articles[0])
+      setStreetArticles(data.articles.slice(1, 6))
+      setStreetLoading(false)
     })
 
     await axios.get('/api/fetch?url=https://www.thedp.com/section/multimedia.json').then(resp => {
@@ -86,7 +124,7 @@ const Home = ({ latestStories }) => {
   }, [])
 
   return (
-    <div>
+    <>
       <Header />
 
       <NavBar />
@@ -104,29 +142,34 @@ const Home = ({ latestStories }) => {
           <div className="col-md">
             <Title> Live Updates </Title>
             <LiveUpdate liveUpdates={liveUpdates} loading={lvLoading} />
+            <UpdateLinkDiv>
+              For the full list of COVID-19 updates, click
+              <a href="https://www.thedp.com/article/2020/03/penn-coronavirus-live-updates" target="_blank" style={{ textDecoration: 'none', color: '#D12D4A' }}> here </a>
+            </UpdateLinkDiv>
           </div>
         </div>
       </SectionDiv>
 
-      <NewsLetter />
+      {/* <NewsLetter /> */}
 
       <Lines className="container" />
 
       <SectionDiv className="container" id="news">
         <div className="row">
-          <div className="col-md">
-            <Title> News </Title>
-          </div>
-          <div className="col-md">
-          </div>
+          <Title> News </Title>
         </div>
         <div className="row">
-          <div className="col-md">
+          <div className="col-md" style={{ borderRight: '1px solid #D8D2D2' }}>
             <Loading loading={newsLoading} />
-            {newsCenterpiece && <Article article={newsCenterpiece[0]} />}
+            {newsCenterpiece && <Article article={newsCenterpiece[0]} centerText={true} />}
           </div>
           <div className="col-md">
-            {newsArticles && newsArticles.map(article => <SideArticle article={article} />)}
+            <SideLoading loading={newsLoading} count={3} />
+            {newsArticles && newsArticles.map((article, idx) => (
+              <div style={{ borderBottom: idx < newsArticles.length - 1 ? '1px solid #D8D2D2' : 'none' }}>
+                <SideArticle article={article} />
+              </div> 
+            ))}
           </div>
         </div>
       </SectionDiv>
@@ -135,33 +178,33 @@ const Home = ({ latestStories }) => {
 
       <SectionDiv className="container" id="timeline">
         <div className="row">
-          <div className="col-md">
-            <Title> Timeline </Title>
-          </div>
-          <div className="col-md">
-          </div>
+          <Title> Timeline </Title>
         </div>
+        <TimelineDiv> <p style={{ paddingTop: '75px' }}> Coming Soon... </p> </TimelineDiv>
       </SectionDiv>
 
       <Lines className="container" />
 
       <SectionDiv className="container" id="opinion">
         <div className="row">
-          <div className="col-md">
-            <Title> Opinion </Title>
-          </div>
-          <div className="col-md">
-          </div>
+          <Title> Opinion </Title>
         </div>
         <div className="row">
-          <div className="col-md">
+          <div className="col-md" style={{ borderRight: '1px solid #D8D2D2' }}>
+            <Loading loading={opinionLoading} />
             {opinionCenterpiece && <Article article={opinionCenterpiece[0]} />}
           </div>
-          <div className="col-md">
+          <div className="col-md" style={{ borderRight: '1px solid #D8D2D2' }}>
+            <Loading loading={opinionLoading} />
             {opinionCenterpiece && <Article article={opinionCenterpiece[1]} />}
           </div>
           <div className="col-md">
-            {opinionArticles && opinionArticles.map(article => <SideArticle article={article} />)}
+            <SideLoading loading={opinionLoading} count={2} />
+            {opinionArticles && opinionArticles.map((article, idx) => (
+              <div style={{ borderBottom: idx < opinionArticles.length - 1 ? '1px solid #D8D2D2' : 'none' }}>
+                <SideArticle article={article} />
+              </div> 
+            ))}
           </div>
         </div>
       </SectionDiv>
@@ -174,12 +217,29 @@ const Home = ({ latestStories }) => {
           <br/>
           and watch, check out <a href="https://www.34st.com/"  target="_blank" style={{ color: '#45BFBF' }}>34th Street</a>
         </div>
+        <div style={{ width: '70%', margin: 'auto' }}>
+          <SideLoading loading={streetLoading} count={1} />
+        </div>
+        {streetCenter && <StreetCenter article={streetCenter} />}
+        <div className="row">
+          {streetArticles && streetArticles.map((article, idx) => (
+            <div
+              className="col-md"
+              style={{ borderRight: idx < streetArticles.length - 1 ? '1px solid #D8D2D2' : 'none' }}
+            >
+              <StreetArticle article={article} />
+            </div>
+          ))}
+        </div>
+        
       </SectionDiv>
 
       <Lines className="container" />
 
       <SectionDiv className="container" id="multimedia">
-        <Title> Multimedia </Title>
+        <div className="row">
+          <Title> Multimedia </Title>
+        </div>
         <div className="row">
           <div className="col-md" style={{ borderRight: '1px solid #D8D2D2' }}>
             <Loading loading={mmloading} />
@@ -201,7 +261,7 @@ const Home = ({ latestStories }) => {
       <Lines className="container" />
       
       <Footer> Made with 😷 by The Daily Pennsylvanian © 2020. All rights reserved. </Footer>
-    </div>
+    </>
   )
 }
 

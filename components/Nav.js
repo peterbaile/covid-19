@@ -2,7 +2,13 @@ import { NavbarWrapper, NavText } from './shared'
 
 const NavBar = () => {
   return (
-    <NavbarWrapper class="navbar navbar-expand-lg">
+    <NavbarWrapper
+      class="navbar sticky-top navbar-expand-lg"
+      style={{
+        fontFamily: 'Libre Franklin',
+        backgroundColor: '#FFFFFF'
+      }}
+    >
       <div class="navbar-collapse w-100 dual-collapse2 order-1 order-md-0 collapse">
           <ul class="navbar-nav ml-auto text-center">
             <li class="nav-item active">
@@ -21,7 +27,7 @@ const NavBar = () => {
           <img src="/img/DP-Logo-Full.png" className="img-fluid" style={{ width: '60%' }} />
         </a>
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target=".dual-collapse2" aria-expanded="false">
-          <span className="navbar-toggler-icon"><i class="fas fa-bars" /></span>
+          <span className="navbar-toggler-icon"><img src="/icons/menu.svg" style={{ transform: 'translate(0, 0.2rem)' }} /></span>
         </button>
       </div>
       <div class="navbar-collapse w-100 dual-collapse2 order-2 order-md-2 collapse">

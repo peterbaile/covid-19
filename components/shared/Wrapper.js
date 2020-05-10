@@ -2,6 +2,8 @@ import s from 'styled-components'
 
 export const ArticleWrapper = s.div`
   margin-top: 1rem;
+  margin-bottom: 2rem;
+  ${({ centerText }) => centerText ? 'text-align: center;' : ''}
 `
 
 export const MultimediaArticleWrapper = s.div`
