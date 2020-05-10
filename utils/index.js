@@ -20,3 +20,8 @@ export const parseAuthors = authorsArray => {
   authorsArray.map(author => authorString += `${author.name} `)
   return authorString
 }
+
+export const parseMultimediaString = s => {
+  const idx = s.indexOf('|')
+  return s.substring(idx + 1)
+}
