@@ -23,7 +23,7 @@ const SideArticle = ({ article, multimedia }) => {
     return (
       <StyledLink href={`https://www.thedp.com/article/${slug}`} target="_blank">
         <MultimediaArticleWrapper>
-          <img className="img-fluid" src={IMAGE_URL(attachment_uuid, extension)} style={{ opacity: 0.7 }}/>
+          <img className="img-fluid" src={IMAGE_URL(attachment_uuid, extension)} />
           <div style={{ position: 'absolute', top: '30%', padding: '0 2rem' }}>
             <TagText color='#FFFFFF' weightLight> PHOTO ESSAY </TagText>
             <HeadlineText color='#FFFFFF' sideArticle> {parseMultimediaString(headline)} </HeadlineText>

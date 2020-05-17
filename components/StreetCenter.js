@@ -13,29 +13,28 @@ const Wrapper = s.div`
   border-bottom: 1px solid #D8D2D2;
 `
 
-const StreetCenter = ({ article }) => {
-  const { abstract, published_at, headline, dominantMedia, slug } = article
-  const {
-    attachment_uuid,
-    created_at,
-    extension,
-    content: imageContent
-  } = dominantMedia
+const BlueMark = s.mark`
+  background-color: rgba(69, 191, 191, 0.1);
+  color: #707070;
+`
 
-  return (
-    <StyledLink href={`https://www.34st.com/article/${slug}`} target="_blank">
-      <Wrapper>
-        <div className="row" style={{ width: '70%', margin: 'auto' }}>
-          <div className="col-md">
-            {headline}
-          </div>
-          <div className="col-md">
-            <img className="img-fluid" src={STREET_IMAGE_URL(attachment_uuid, extension)} />
-          </div>
+const ARTICLE_LINK = 'https://www.34st.com/article/2020/04/grit-book-angela-duckworth-quarantine-productivity-positive-pyschology-taylor-lorenz-self-care'
+const IMAGE_LINK = 'https://snworksceo.imgix.net/dpn-34s/6409cf93-7097-4e35-9ff8-efe3f02bca13.sized-1000x1000.PNG?w=1000'
+
+const StreetCenter = () => (
+  <StyledLink href={ARTICLE_LINK} target="_blank">
+    <Wrapper>
+      <div className="row" style={{ width: '80%', margin: 'auto' }}>
+        <div className="col-md" style={{ alignSelf: 'center' }}>
+          <BlueMark>Balancing productivity</BlueMark> and grit during quarantine, how Penn students are taking action,
+          the album with the perfect score, and your favorite Philly workout classes&#8212;<i>online&#63;</i>
         </div>
-      </Wrapper>
-    </StyledLink>
-  )
-}
+        <div className="col-md">
+          <img className="img-fluid" src="/img/34st.png" />
+        </div>
+      </div>
+    </Wrapper>
+  </StyledLink>
+)
 
 export default StreetCenter

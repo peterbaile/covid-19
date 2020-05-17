@@ -12,7 +12,7 @@ import Loading from '../components/Loading'
 import SideLoading from '../components/SideLoading'
 import StreetCenter from '../components/StreetCenter'
 
-import { Title } from '../components/shared'
+import { Title, StyledLink } from '../components/shared'
 import StreetArticle from '../components/StreetArticle'
 import { initGA, logPageView } from '../utils/analytics'
 
@@ -145,10 +145,12 @@ const Home = ({ latestStories }) => {
           <div className="col-md">
             <Title> Live Updates </Title>
             <LiveUpdate liveUpdates={liveUpdates} loading={lvLoading} />
-            <UpdateLinkDiv>
-              For the full list of COVID-19 updates, click
-              <a href="https://www.thedp.com/article/2020/03/penn-coronavirus-live-updates" target="_blank" style={{ textDecoration: 'none', color: '#D12D4A' }}> here </a>
-            </UpdateLinkDiv>
+            <StyledLink href="https://www.thedp.com/article/2020/03/penn-coronavirus-live-updates" target="_blank">
+              <UpdateLinkDiv>
+                For the full list of COVID-19 updates, click
+                <text style={{ textDecoration: 'none', color: '#D12D4A' }}> here </text>
+              </UpdateLinkDiv>
+            </StyledLink>
           </div>
         </div>
       </SectionDiv>
@@ -177,14 +179,14 @@ const Home = ({ latestStories }) => {
         </div>
       </SectionDiv>
 
-      <Lines className="container" />
+      {/* <Lines className="container" />
 
       <SectionDiv className="container" id="timeline">
         <div className="row">
           <Title> Timeline </Title>
         </div>
         <TimelineDiv> <p style={{ paddingTop: '75px' }}> Coming Soon... </p> </TimelineDiv>
-      </SectionDiv>
+      </SectionDiv> */}
 
       <Lines className="container" />
 
@@ -220,10 +222,10 @@ const Home = ({ latestStories }) => {
           <br/>
           and watch, check out <a href="https://www.34st.com/"  target="_blank" style={{ color: '#45BFBF' }}>34th Street</a>
         </div>
-        <div style={{ width: '70%', margin: 'auto' }}>
+        {/* <div style={{ width: '70%', margin: 'auto' }}>
           <SideLoading loading={streetLoading} count={1} />
-        </div>
-        {streetCenter && <StreetCenter article={streetCenter} />}
+        </div> */}
+        <StreetCenter />
         <div className="row">
           {streetArticles && streetArticles.map((article, idx) => (
             <div

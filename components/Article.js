@@ -23,7 +23,7 @@ const Article = ({ article, multimedia, centerText }) => {
     return (
       <StyledLink href={`https://www.thedp.com/article/${slug}`} target="_blank">
         <MultimediaArticleWrapper>
-          <img className="img-fluid" src={IMAGE_URL(attachment_uuid, extension)} style={{ height: 'fit-content', opacity: 0.7 }} />
+          <img className="img-fluid" src={IMAGE_URL(attachment_uuid, extension)} style={{ height: 'fit-content' }} />
           <div style={{ position: 'absolute', top: '2rem', left: '16px' }}>
             <TagText color='#FFFFFF' weightLight> PHOTO ESSAY </TagText>
             <HeadlineText color='#FFFFFF'> {parseMultimediaString(headline)} </HeadlineText>

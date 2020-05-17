@@ -6,7 +6,9 @@ const NavBar = () => {
       class="navbar sticky-top navbar-expand-lg"
       style={{
         fontFamily: 'Libre Franklin',
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
+        boxShadow: '0px 5px 6px #00000029',
+        opacity: 1
       }}
     >
       <div class="navbar-collapse w-100 dual-collapse2 order-1 order-md-0 collapse">
@@ -24,7 +26,7 @@ const NavBar = () => {
       </div>
       <div class="mx-auto my-2 order-0 order-md-1 position-relative" style={{ textAlign: 'center' }}>
         <a class="mx-auto" href="#">
-          <img src="/img/DP-Logo-Full.png" className="img-fluid" style={{ width: '60%' }} />
+          <img src="/img/DP-Logo-Full.png" className="img-fluid" style={{ width: '50%' }} />
         </a>
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target=".dual-collapse2" aria-expanded="false">
           <span className="navbar-toggler-icon"><img src="/icons/menu.svg" style={{ transform: 'translate(0, 0.2rem)' }} /></span>
@@ -32,9 +34,9 @@ const NavBar = () => {
       </div>
       <div class="navbar-collapse w-100 dual-collapse2 order-2 order-md-2 collapse">
         <ul class="navbar-nav mr-auto text-center">
-          <li class="nav-item">
+          {/* <li class="nav-item">
             <a class="nav-link" href="#timeline"> <NavText> Timeline </NavText> </a>
-          </li>
+          </li> */}
           <li class="nav-item">
             <a class="nav-link" href="#opinion"><NavText> Opinion </NavText></a>
           </li>
