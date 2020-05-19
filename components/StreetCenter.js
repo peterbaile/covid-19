@@ -1,6 +1,5 @@
 import s from 'styled-components'
 
-import { STREET_IMAGE_URL } from '../utils'
 import { StyledLink } from './shared'
 
 const Wrapper = s.div`
@@ -19,7 +18,6 @@ const BlueMark = s.mark`
 `
 
 const ARTICLE_LINK = 'https://www.34st.com/article/2020/04/grit-book-angela-duckworth-quarantine-productivity-positive-pyschology-taylor-lorenz-self-care'
-const IMAGE_LINK = 'https://snworksceo.imgix.net/dpn-34s/6409cf93-7097-4e35-9ff8-efe3f02bca13.sized-1000x1000.PNG?w=1000'
 
 const StreetCenter = () => (
   <StyledLink href={ARTICLE_LINK} target="_blank">

@@ -1,5 +1,7 @@
 import s from 'styled-components'
 
+import { PLAYFAIR_BOLD, GEORGIA_REGULAR } from '../../utils/font'
+
 export const StyledLink = s.a`
   color: #000000 !important;
   text-decoration: none !important;
@@ -14,20 +16,21 @@ export const NavText = s.text`
 export const HeadlineText = s.div`
   margin-top: 0.5rem;
   color: ${({ color = '#283033' }) => color};
-  font-family: 'Playfair Display', serif;
+  ${PLAYFAIR_BOLD}
   font-size: ${({ sideArticle }) => sideArticle ? '100%' : '150%'};
 `
 
 export const AbstractText = s.div`
   margin-top: 0.5rem;
   color: ${({ color = '#707070' }) => color};
-  font-family: 'Georgia', serif;
+  ${GEORGIA_REGULAR}
 `
 
 export const TimestampText = s.div`
   margin-top: 0.5rem;
   color: ${({ color = '#696969' }) => color};
   font-family: 'Roboto', sans-serif;
+  font-size: 85%;
 `
 
 export const Title = s.div`
