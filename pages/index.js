@@ -78,7 +78,6 @@ const Home = ({ latestStories }) => {
   const [newsArticles, setNewsArticles] = useState(null)
   const [opinionCenterpiece, setOpinionCenterpiece] = useState(null)
   const [opinionArticles, setOpinionArticles] = useState(null)
-  const [streetCenter, setStreetCenter] = useState(null)
   const [streetArticles, setStreetArticles] = useState(null)
   const [multimediaArticles, setMultimediaArticles] = useState(null)
   const [lvLoading, setLVLoading] = useState(true)
@@ -114,7 +113,6 @@ const Home = ({ latestStories }) => {
 
     await axios.get('/api/fetch?url=https://www.34st.com/section/article.json').then(resp => {
       const { data } = resp
-      setStreetCenter(data.articles[0])
       setStreetArticles(data.articles.slice(1, 6))
       setStreetLoading(false)
     })
@@ -222,14 +220,11 @@ const Home = ({ latestStories }) => {
           <br/>
           and watch, check out <a href="https://www.34st.com/"  target="_blank" style={{ color: '#45BFBF' }}>34th Street</a>
         </div>
-        {/* <div style={{ width: '70%', margin: 'auto' }}>
-          <SideLoading loading={streetLoading} count={1} />
-        </div> */}
         <StreetCenter />
         <div className="row">
           {streetArticles && streetArticles.map((article, idx) => (
             <div
-              className="col-md"
+              className="col-md mb-3"
               style={{ borderRight: idx < streetArticles.length - 1 ? '1px solid #D8D2D2' : 'none' }}
             >
               <StreetArticle article={article} />

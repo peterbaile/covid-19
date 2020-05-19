@@ -11,6 +11,12 @@ export const NavText = s.text`
   font-size: 80%;
   font-family: 'Libre Franklin', sans-serif;
   color: #283033;
+
+  transition: 0.3s;
+
+  :hover {
+    color: #B5B4B4;
+  }
 `
 
 export const HeadlineText = s.div`
@@ -24,6 +30,10 @@ export const AbstractText = s.div`
   margin-top: 0.5rem;
   color: ${({ color = '#707070' }) => color};
   ${GEORGIA_REGULAR}
+
+  @media (max-width: 768px) {
+    ${({ multimedia }) => multimedia ? 'display: none' : ''}
+  }
 `
 
 export const TimestampText = s.div`
@@ -62,5 +72,5 @@ export const TagText = s.div`
   margin-top: 0.5rem;
   color: ${({ color = '#B5B4B4' }) => color};
   font-family: 'Roboto', sans-serif;
-  ${({ weightLight }) => weightLight ? 'font-weight: 100;' : '' }
+  ${({ weightLight }) => weightLight ? 'font-weight: 300;' : '' }
 `

@@ -27,7 +27,7 @@ const SideArticle = ({ article, multimedia }) => {
           <div style={{ position: 'absolute', top: '30%', padding: '0 2rem' }}>
             <TagText color='#FFFFFF' weightLight> PHOTO ESSAY </TagText>
             <HeadlineText color='#FFFFFF' sideArticle> {parseMultimediaString(headline)} </HeadlineText>
-            <AbstractText dangerouslySetInnerHTML={{ __html: abstract }} color='#FFFFFF' />
+            <AbstractText dangerouslySetInnerHTML={{ __html: abstract }} color='#FFFFFF' multimedia/>
             <TimestampText color='#FFFFFF'>
               {(moment(published_at).isBefore(now, "minute")) ? moment(published_at).format('MMMM D') : moment(published_at).fromNow()} 
             </TimestampText>
@@ -43,7 +43,7 @@ const SideArticle = ({ article, multimedia }) => {
     <StyledLink href={`https://www.thedp.com/article/${slug}`} target="_blank">
       <ArticleWrapper>
         <div className = "row">
-          <div className="col-md">
+          <div className="col-md mb-3">
             {tag && <TagText> {tag} </TagText>}
             <HeadlineText sideArticle> {title || headline} </HeadlineText>
             <TimestampText> 

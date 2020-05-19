@@ -16,17 +16,23 @@ const AuthorText = s.p`
   color: #B5B4B4;
 `
 
+const Wrapper = s.div`
+  @media (min-width: 768px) {
+    margin-top: 20%;
+  }
+`
+
 const StreetArticle = ({ article }) => {
   const { authors, headline, dominantMedia, slug } = article
   const { attachment_uuid, extension } = dominantMedia
 
   return (
     <StyledLink href={`https://www.34st.com/article/${slug}`} target="_blank">
-      <div style={{ marginTop: '20%' }}>
+      <Wrapper>
         <img className="img-fluid" src={STREET_IMAGE_URL(attachment_uuid, extension)} />
         <HeadLineText> {headline} </HeadLineText>
         <AuthorText> {`By ${parseAuthors(authors)}`} </AuthorText>
-      </div>
+      </Wrapper>
     </StyledLink>
   )
 }

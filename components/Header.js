@@ -5,7 +5,7 @@ const Header = () => (
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>COVID-19 | The Daily Pennsylvanian</title>
-    {/* <link rel="icon" href="/favicon.ico" /> */}
+    <link rel="icon" href="favicon.png" />
 
     <meta property="og:title" content="COVID-19 | The Daily Pennsylvanian"/>
     <meta property="og:image" content="https://snworksceo.imgix.net/dpn/ffa1291a-df92-4ed0-8ce5-6ad3f04b082f.sized-1000x1000.png" />
