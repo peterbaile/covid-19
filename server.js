@@ -34,11 +34,10 @@ nextApp.prepare().then(() => {
         const { data: html } = resp
         const $ = cheerio.load(html)
         const updatesList = []
-        $('strong').each((idx, elt) => {
-          
+        $('strong').each((_, elt) => {
           const text = $(elt).text()
           if (updatesList.length <= 2 && text !== "RELATED:") {
-            updatesList.push($(elt).text())
+            updatesList.push(text)
           }
         })
 

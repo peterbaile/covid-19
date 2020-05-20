@@ -24,6 +24,7 @@ export const HeadlineText = s.div`
   color: ${({ color = '#283033' }) => color};
   ${PLAYFAIR_BOLD}
   font-size: ${({ sideArticle }) => sideArticle ? '100%' : '150%'};
+  line-height: 1.2;
 `
 
 export const AbstractText = s.div`

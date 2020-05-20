@@ -54,12 +54,13 @@ const UpdateLinkDiv = s.div`
   background-color: #283033;
   font-family: 'Libre Franklin', sans-serif;
   font-weight: 900;
-  font-size: 70%;
+  font-size: ${({ fontSize = '70%' }) => fontSize};
   color: #FFFFFF;
   width: 60%;
   margin: auto;
   margin-top: 2rem;
   padding: 1rem 2rem;
+  text-align: center;
 `
 
 const TimelineDiv = s.div`
@@ -210,13 +211,16 @@ const Home = ({ latestStories }) => {
             ))}
           </div>
         </div>
+        <StyledLink href="https://www.thedp.com/page/opinion-submissions" target="_blank">
+          <UpdateLinkDiv fontSize='100%'> Submit a guest column </UpdateLinkDiv>
+        </StyledLink>
       </SectionDiv>
 
       <Lines className="container" />
 
       <SectionDiv className="container" id="34st">
         <div style={{ textAlign: 'center', fontFamily: 'Libre Franklin, sans-serif', fontWeight: 900 }}>
-          For updates on music, things to do, read,
+          <text style={{ fontSize: '120%' }}> For updates on music</text>, things to do, read,
           <br/>
           and watch, check out <a href="https://www.34st.com/"  target="_blank" style={{ color: '#45BFBF' }}>34th Street</a>
         </div>
