@@ -28,27 +28,47 @@ nextApp.prepare().then(() => {
   })
 
   app.use('/api/live-updates', (req, res) => {
+    const extractTimestamp = s => {
+      if (!s.includes('Updated at')) return null
+      const $ = cheerio.load(s)
+      const timeElt = $('p').toArray()[0]
+      const timeHTML = $.html(timeElt)
+      return {
+        content: s.replace(timeHTML, ''),
+        timestamp: cheerio.load(timeHTML)('em').text()
+      } 
+    }
+
     axios.get('https://www.thedp.com/article/2020/03/penn-coronavirus-live-updates').then(resp => {
       const { status } = resp
       if (status === 200) {
         const { data: html } = resp
         const $ = cheerio.load(html)
         const updatesList = []
-        $('strong').each((_, elt) => {
-          const text = $(elt).text()
-          if (updatesList.length <= 2 && text !== "RELATED:") {
-            updatesList.push(text)
+        let allHTML = ''
+
+        $('p').toArray().map(elt => {
+          const pHTML = $.html(elt)
+          allHTML += pHTML
+          if (updatesList.length <= 2 && pHTML.includes('<strong>')) {
+            updatesList.push(pHTML)
           }
         })
 
-        const allText = $('p').text()
+        const string0Idx = allHTML.indexOf(updatesList[0])
+        const string1Idx = allHTML.indexOf(updatesList[1])
+        const string2Idx = allHTML.indexOf(updatesList[2])
+        const update1 = allHTML.substring(string0Idx + updatesList[0].length, string1Idx)
+        let obj1 = extractTimestamp(update1)
+        if (!obj1) obj1 = { content: update1 }
+        obj1.title = cheerio.load(updatesList[0])('strong').text()
 
-        const string0Idx = allText.indexOf(updatesList[0])
-        const string1Idx = allText.indexOf(updatesList[1])
-        const string2Idx = allText.indexOf(updatesList[2])
-        const update1 = allText.substring(string0Idx + updatesList[0].length, string1Idx)
-        const update2 = allText.substring(string1Idx + updatesList[1].length, string2Idx)
-        const result = [{ title: updatesList[0], content: update1 }, { title: updatesList[1], content: update2 }]
+        const update2 = allHTML.substring(string1Idx + updatesList[1].length, string2Idx)
+        let obj2 = extractTimestamp(update2)
+        if (!obj2) obj2 = { content: update2 }
+        obj2.title = cheerio.load(updatesList[1])('strong').text()
+
+        const result = [obj1, obj2]
         res.status(200).json(result)
       }
     })

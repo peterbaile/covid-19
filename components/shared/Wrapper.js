@@ -18,13 +18,6 @@ export const MultimediaArticleWrapper = s.div`
   position: relative;
 `
 
-export const UpdateWrapper = s.div`
-  margin-top: 1rem;
-  background: #F5F5F5;
-  padding: 2rem;
-  margin-bottom: 2rem;
-`
-
 export const NavbarWrapper = s.nav`
   font-size: 80%;
   font-family: 'Libre Franklin', sans-serif;

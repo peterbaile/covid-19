@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export const IMAGE_URL = (attachment_uuid, extension) =>
   `https://snworksceo.imgix.net/dpn/${attachment_uuid}.sized-1000x1000.${extension}?w=1000`
 
@@ -24,4 +26,15 @@ export const parseAuthors = authorsArray => {
 export const parseMultimediaString = s => {
   const idx = s.indexOf('|')
   return s.substring(idx + 1)
+}
+
+export const formatTimestamp = timestamp => {
+  const timeString = timestamp.replace(' on', '').replace('Updated at ', '').replace('.', '')
+  return moment(timeString, 'h:m a MMM D').format('MMMM D, YYYY (h:mmA)').toUpperCase()
+}
+
+export const getDuration = (timestamp, parseString) => {
+  const now = moment().subtract(16, 'hours')
+  timestamp = timestamp.replace(' on', '').replace('Updated at ', '').replace('.', '')
+  return moment(timestamp, parseString).fromNow()
 }

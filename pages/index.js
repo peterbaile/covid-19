@@ -141,7 +141,6 @@ const Home = ({ latestStories }) => {
             {latestStories && latestStories.map(article => <Article article={article} />)}
           </div>
           <div className="col-md">
-            <Title> Live Updates </Title>
             <LiveUpdate liveUpdates={liveUpdates} loading={lvLoading} />
             <StyledLink href="https://www.thedp.com/article/2020/03/penn-coronavirus-live-updates" target="_blank">
               <UpdateLinkDiv className="updateLinkDiv">
