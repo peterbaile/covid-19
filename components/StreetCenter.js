@@ -17,7 +17,7 @@ const BlueMark = s.mark`
   color: #707070;
 `
 
-const ARTICLE_LINK = 'https://www.34st.com/article/2020/04/grit-book-angela-duckworth-quarantine-productivity-positive-pyschology-taylor-lorenz-self-care'
+const ARTICLE_LINK = "https://www.34st.com/"
 
 const StreetCenter = () => (
   <StyledLink href={ARTICLE_LINK} target="_blank">

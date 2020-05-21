@@ -16,11 +16,12 @@ export const NavText = s.text`
 
   :hover {
     color: #B5B4B4;
+    transition: 0.3s;
   }
 `
 
 export const HeadlineText = s.div`
-  margin-top: 0.5rem;
+  margin-top: ${({ topMargin = '1.5rem' }) => topMargin};
   color: ${({ color = '#283033' }) => color};
   ${PLAYFAIR_BOLD}
   font-size: ${({ sideArticle }) => sideArticle ? '100%' : '150%'};
@@ -70,8 +71,9 @@ export const LiveUpdateText = s.p`
 `
 
 export const TagText = s.div`
-  margin-top: 0.5rem;
+  margin-top: ${({ topMargin = '0.5rem' }) => topMargin};
   color: ${({ color = '#B5B4B4' }) => color};
   font-family: 'Roboto', sans-serif;
+  font-size: ${({ fontSize = '100%' }) => fontSize};
   ${({ weightLight }) => weightLight ? 'font-weight: 300;' : '' }
 `

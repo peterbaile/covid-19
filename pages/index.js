@@ -51,12 +51,11 @@ const Lines = s.div`
 `
 
 const UpdateLinkDiv = s.div`
-  background-color: #283033;
   font-family: 'Libre Franklin', sans-serif;
   font-weight: 900;
   font-size: ${({ fontSize = '70%' }) => fontSize};
   color: #FFFFFF;
-  width: 60%;
+  width: ${({ width = '60%' }) => width};
   margin: auto;
   margin-top: 2rem;
   padding: 1rem 2rem;
@@ -108,11 +107,11 @@ const Home = ({ latestStories }) => {
     await axios.get('/api/fetch?url=https://www.thedp.com/section/opinion.json').then(resp => {
       const { data } = resp
       setOpinionCenterpiece(data.articles.slice(0, 2))
-      setOpinionArticles(data.articles.slice(2, 4))
+      setOpinionArticles(data.articles.slice(2, 5))
       setOpinionLoading(false)
     })
 
-    await axios.get('/api/fetch?url=https://www.34st.com/section/article.json').then(resp => {
+    await axios.get('/api/fetch?url=https://www.34st.com/section/street-covid.json').then(resp => {
       const { data } = resp
       setStreetArticles(data.articles.slice(1, 6))
       setStreetLoading(false)
@@ -145,9 +144,8 @@ const Home = ({ latestStories }) => {
             <Title> Live Updates </Title>
             <LiveUpdate liveUpdates={liveUpdates} loading={lvLoading} />
             <StyledLink href="https://www.thedp.com/article/2020/03/penn-coronavirus-live-updates" target="_blank">
-              <UpdateLinkDiv>
-                For the full list of COVID-19 updates, click
-                <text style={{ textDecoration: 'none', color: '#D12D4A' }}> here </text>
+              <UpdateLinkDiv className="updateLinkDiv">
+                For the full list of COVID-19 updates, click here
               </UpdateLinkDiv>
             </StyledLink>
           </div>
@@ -165,7 +163,7 @@ const Home = ({ latestStories }) => {
         <div className="row">
           <div className="col-md" style={{ borderRight: '1px solid #D8D2D2' }}>
             <Loading loading={newsLoading} />
-            {newsCenterpiece && <Article article={newsCenterpiece[0]} centerText={true} />}
+            {newsCenterpiece && <Article article={newsCenterpiece[0]} centerText={true} topMargin="4rem" />}
           </div>
           <div className="col-md">
             <SideLoading loading={newsLoading} count={3} />
@@ -196,31 +194,33 @@ const Home = ({ latestStories }) => {
         <div className="row">
           <div className="col-md" style={{ borderRight: '1px solid #D8D2D2' }}>
             <Loading loading={opinionLoading} />
-            {opinionCenterpiece && <Article article={opinionCenterpiece[0]} />}
+            {opinionCenterpiece && <Article article={opinionCenterpiece[0]} centerImage tagTextTopMargin="2rem" topMargin="0.2rem" />}
           </div>
           <div className="col-md" style={{ borderRight: '1px solid #D8D2D2' }}>
             <Loading loading={opinionLoading} />
-            {opinionCenterpiece && <Article article={opinionCenterpiece[1]} />}
+            {opinionCenterpiece && <Article article={opinionCenterpiece[1]} centerImage tagTextTopMargin="2rem" topMargin="0.2rem" />}
           </div>
           <div className="col-md">
             <SideLoading loading={opinionLoading} count={2} />
             {opinionArticles && opinionArticles.map((article, idx) => (
               <div style={{ borderBottom: idx < opinionArticles.length - 1 ? '1px solid #D8D2D2' : 'none' }}>
-                <SideArticle article={article} />
+                <SideArticle article={article} fontSize="85%" topMargin="0.2rem" />
               </div> 
             ))}
           </div>
         </div>
         <StyledLink href="https://www.thedp.com/page/opinion-submissions" target="_blank">
-          <UpdateLinkDiv fontSize='100%'> Submit a guest column </UpdateLinkDiv>
+          <UpdateLinkDiv fontSize='100%' width='300px' className="updateLinkDiv">
+            Submit a guest column
+          </UpdateLinkDiv>
         </StyledLink>
       </SectionDiv>
 
       <Lines className="container" />
 
       <SectionDiv className="container" id="34st">
-        <div style={{ textAlign: 'center', fontFamily: 'Libre Franklin, sans-serif', fontWeight: 900 }}>
-          <text style={{ fontSize: '120%' }}> For updates on music</text>, things to do, read,
+        <div style={{ textAlign: 'center', fontFamily: 'Libre Franklin, sans-serif', fontWeight: 900, fontSize: '125%' }}>
+          For updates on music, things to do, read,
           <br/>
           and watch, check out <a href="https://www.34st.com/"  target="_blank" style={{ color: '#45BFBF' }}>34th Street</a>
         </div>

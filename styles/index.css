@@ -12,3 +12,12 @@
 html {
   scroll-behavior: smooth;
 }
+
+.updateLinkDiv {
+  background: #283033;
+  transition: background-color 0.3s ease-out;
+}
+
+.updateLinkDiv:hover {
+  background-color: #D12D4A;
+}

@@ -12,7 +12,7 @@ import {
 
 import { IMAGE_URL, extractOpinionHeadline, parseMultimediaString } from '../utils'
 
-const SideArticle = ({ article, multimedia }) => {
+const SideArticle = ({ article, multimedia, fontSize, topMargin }) => {
   const { abstract, published_at, headline, dominantMedia, slug } = article
   const now = moment().subtract(16, 'hours')
   const { attachment_uuid, extension } = dominantMedia
@@ -24,7 +24,7 @@ const SideArticle = ({ article, multimedia }) => {
       <StyledLink href={`https://www.thedp.com/article/${slug}`} target="_blank">
         <MultimediaArticleWrapper>
           <img className="img-fluid" src={IMAGE_URL(attachment_uuid, extension)} />
-          <div style={{ position: 'absolute', top: '30%', padding: '0 2rem' }}>
+          <div style={{ position: 'absolute', top: '30%', padding: '0 2rem', backgroundColor: 'rgb(128, 128, 128, 0.5)' }}>
             <TagText color='#FFFFFF' weightLight> PHOTO ESSAY </TagText>
             <HeadlineText color='#FFFFFF' sideArticle> {parseMultimediaString(headline)} </HeadlineText>
             <AbstractText dangerouslySetInnerHTML={{ __html: abstract }} color='#FFFFFF' multimedia/>
@@ -44,8 +44,8 @@ const SideArticle = ({ article, multimedia }) => {
       <ArticleWrapper>
         <div className = "row">
           <div className="col-md mb-3">
-            {tag && <TagText> {tag} </TagText>}
-            <HeadlineText sideArticle> {title || headline} </HeadlineText>
+            {tag && <TagText fontSize={fontSize}> {tag} </TagText>}
+            <HeadlineText sideArticle topMargin={topMargin}> {title || headline} </HeadlineText>
             <TimestampText> 
               {(moment(published_at).isBefore(now, "minute")) ? moment(published_at).format('MMMM D') : moment(published_at).fromNow()} 
             </TimestampText>
