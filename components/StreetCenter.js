@@ -24,8 +24,7 @@ const StreetCenter = () => (
     <Wrapper>
       <div className="row" style={{ width: '80%', margin: 'auto' }}>
         <div className="col-md" style={{ alignSelf: 'center' }}>
-          <BlueMark>Balancing productivity</BlueMark> and grit during quarantine, how Penn students are taking action,
-          the album with the perfect score, and your favorite Philly workout classes&#8212;<i>online&#63;</i>
+          <BlueMark>Your definitive source</BlueMark> for music and movie reviews, community spotlights, explanations of the latest baking trends, and other miscellaneous ways to stay sane and productive in quarantine.
         </div>
         <div className="col-md">
           <img className="img-fluid" src="/img/34st.png" />

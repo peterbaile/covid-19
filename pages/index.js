@@ -220,9 +220,9 @@ const Home = ({ latestStories }) => {
 
       <SectionDiv className="container" id="34st">
         <div style={{ textAlign: 'center', fontFamily: 'Libre Franklin, sans-serif', fontWeight: 900, fontSize: '125%' }}>
-          For updates on music, things to do, read,
+          For artsy, cultured updates on entertainment
           <br/>
-          and watch, check out <a href="https://www.34st.com/"  target="_blank" style={{ color: '#45BFBF' }}>34th Street</a>
+          and student life, check out <a href="https://www.34st.com/"  target="_blank" style={{ color: '#45BFBF' }}>34th Street</a>
         </div>
         <StreetCenter />
         <div className="row">
