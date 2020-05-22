@@ -50,7 +50,7 @@ const NavBar = () => {
         </LeftUL>
       </div>
       <div className="mx-auto my-2 order-0 order-md-1 position-relative" style={{ textAlign: 'center' }}>
-        <a className="mx-auto" href="#">
+        <a className="mx-auto" href="https://www.thedp.com/">
           <Image src="/img/DP-Logo-Full.png" className="img-fluid" />
         </a>
         <button className="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target=".dual-collapse2" aria-expanded="false">
