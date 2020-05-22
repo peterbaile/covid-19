@@ -104,7 +104,7 @@ const Home = ({ latestStories }) => {
       setNewsLoading(false)
     })
 
-    await axios.get('/api/fetch?url=https://www.thedp.com/section/opinion.json').then(resp => {
+    await axios.get('/api/fetch?url=https://www.thedp.com/section/opinion-covid.json').then(resp => {
       const { data } = resp
       setOpinionCenterpiece(data.articles.slice(0, 2))
       setOpinionArticles(data.articles.slice(2, 5))
