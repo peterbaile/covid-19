@@ -9,14 +9,14 @@ const Header = () => (
 
     <meta property="og:title" content="COVID-19 | The Daily Pennsylvanian"/>
     <meta property="og:image" content="https://snworksceo.imgix.net/dpn/ffa1291a-df92-4ed0-8ce5-6ad3f04b082f.sized-1000x1000.png" />
-    <meta property="og:description" content="Updates from Penn on global pandemic"/>
+    <meta property="og:description" content="Updates from Penn on the pandemic"/>
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://thedp-covid-19.herokuapp.com/"/>
 
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:title" content="COVID-19 | The Daily Pennsylvanian"/>
     <meta name="twitter:image" content="https://snworksceo.imgix.net/dpn/ffa1291a-df92-4ed0-8ce5-6ad3f04b082f.sized-1000x1000.png" />
-    <meta name="twitter:description" content="Updates from Penn on global pandemic"/>
+    <meta name="twitter:description" content="Updates from Penn on the pandemic"/>
     <meta name="twitter:url" content="https://thedp-covid-19.herokuapp.com/"/>
     <meta name="twitter:site" content="@dailypenn"/>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossOrigin="anonymous"></script>
