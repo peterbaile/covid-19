@@ -142,7 +142,7 @@ const Home = ({ latestStories }) => {
           </div>
           <div className="col-md">
             <LiveUpdate liveUpdates={liveUpdates} loading={lvLoading} />
-            <StyledLink href="https://www.thedp.com/article/2020/03/penn-coronavirus-live-updates" target="_blank">
+            <StyledLink href="https://www.thedp.com/section/covid" target="_blank">
               <UpdateLinkDiv className="updateLinkDiv">
                 For the full list of COVID-19 updates, click here
               </UpdateLinkDiv>
