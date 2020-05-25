@@ -117,7 +117,7 @@ const Home = ({ latestStories }) => {
       setStreetLoading(false)
     })
 
-    await axios.get('/api/fetch?url=https://www.thedp.com/section/multimedia.json').then(resp => {
+    await axios.get('/api/fetch?url=https://www.thedp.com/section/multimedia-covid.json').then(resp => {
       const { data } = resp
       setMultimediaArticles(data.articles.slice(0, 3))
       setMMLoading(false)
