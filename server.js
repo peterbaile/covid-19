@@ -29,16 +29,20 @@ nextApp.prepare().then(() => {
 
   app.use('/api/live-updates', (req, res) => {
     const extractTimestamp = s => {
-      if (!s.includes('Updated at')) return null
       const $ = cheerio.load(s)
       const timeElt = $('p').toArray()[0]
+      const contentElt = $('p').toArray()[1]
+      const contentHTML = $.html(contentElt)
+    
+      if (!s.includes('Updated at')) return { content: contentHTML }
+    
       const timeHTML = $.html(timeElt)
       return {
-        content: s.replace(timeHTML, ''),
+        content: contentHTML,
         timestamp: cheerio.load(timeHTML)('em').text()
       } 
     }
-
+    
     axios.get('https://www.thedp.com/article/2020/03/penn-coronavirus-live-updates').then(resp => {
       const { status } = resp
       if (status === 200) {
@@ -46,31 +50,37 @@ nextApp.prepare().then(() => {
         const $ = cheerio.load(html)
         const updatesList = []
         let allHTML = ''
-
+    
+        const numUpdates = 4
+    
         $('p').toArray().map(elt => {
           const pHTML = $.html(elt)
           allHTML += pHTML
-          if (updatesList.length <= 2 && pHTML.includes('<strong>')) {
+          if (updatesList.length <= numUpdates && pHTML.includes('<strong>')) {
             updatesList.push(pHTML)
           }
         })
-
-        const string0Idx = allHTML.indexOf(updatesList[0])
-        const string1Idx = allHTML.indexOf(updatesList[1])
-        const string2Idx = allHTML.indexOf(updatesList[2])
-        const update1 = allHTML.substring(string0Idx + updatesList[0].length, string1Idx)
-        let obj1 = extractTimestamp(update1)
-        if (!obj1) obj1 = { content: update1 }
-        obj1.title = cheerio.load(updatesList[0])('strong').text()
-
-        const update2 = allHTML.substring(string1Idx + updatesList[1].length, string2Idx)
-        let obj2 = extractTimestamp(update2)
-        if (!obj2) obj2 = { content: update2 }
-        obj2.title = cheerio.load(updatesList[1])('strong').text()
-
-        const result = [obj1, obj2]
-        res.status(200).json(result)
+    
+        const idxArray = updatesList.map(update => allHTML.indexOf(update))
+    
+        const processedUpdates = idxArray.map((updateIdx, idx) => {
+          if (idx < idxArray.length - 1) {
+            return allHTML.substring(updateIdx + updatesList[idx].length, idxArray[idx+1])
+          }
+        }).slice(0, 4)
+    
+        console.log(processedUpdates)
+    
+        const returnList = processedUpdates.map((update, idx) => {
+          let obj = extractTimestamp(update)
+          obj.title = cheerio.load(updatesList[idx])('strong').text().trim()
+          return obj
+        })
+    
+        res.status(200).json(returnList)
       }
+    }).catch(e => {
+      console.log(e.message)
     })
   })
 

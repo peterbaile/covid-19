@@ -3,7 +3,7 @@ import s from 'styled-components'
 
 import { formatTimestamp, getDuration } from '../utils'
 import { ROBOTO_BOLD } from '../utils/font'
-import { Title } from '../components/shared'
+import { Title, StyledLink } from '../components/shared'
 
 const UpdateWrapper = s.div`
   margin-top: 1rem;
@@ -70,7 +70,12 @@ const LiveUpdate = ({ liveUpdates, loading }) => {
       {liveUpdates && liveUpdates.map(({ title, content, timestamp }) => (
         <UpdateWrapper>
           {timestamp && <TimestampText> {formatTimestamp(timestamp)} </TimestampText>}
-          <LiveUpdateTitle> {title} </LiveUpdateTitle>
+          <StyledLink
+            href={`https://www.thedp.com/article/2020/03/penn-coronavirus-live-updates#${title}`}
+            target="_blank"
+          >
+            <LiveUpdateTitle> {title} </LiveUpdateTitle>
+          </StyledLink>
           <LiveUpdateText dangerouslySetInnerHTML={{ __html: content }} />
         </UpdateWrapper>
       ))}
