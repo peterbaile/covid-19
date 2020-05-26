@@ -23,6 +23,13 @@ const LiveUpdateTitle = s.h4`
   font-family: 'Libre Franklin', sans-serif;
   font-weight: 900;
   color: #464242;
+
+  transition: 0.3s;
+
+  :hover {
+    color: #B5B4B4;
+    transition: 0.3s;
+  }
 `
 
 const LiveUpdateText = s.p`
