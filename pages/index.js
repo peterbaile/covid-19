@@ -16,6 +16,7 @@ import Map from '../components/Map'
 import { Title, StyledLink } from '../components/shared'
 import StreetArticle from '../components/StreetArticle'
 import { initGA, logPageView } from '../utils/analytics'
+import { LIBRE_BOLD } from '../utils/font'
 
 const Background = s.div`
   background-image: url('/img/dark-background.png');
@@ -52,8 +53,7 @@ const Lines = s.div`
 `
 
 const UpdateLinkDiv = s.div`
-  font-family: 'Libre Franklin', sans-serif;
-  font-weight: 900;
+  ${LIBRE_BOLD}
   font-size: ${({ fontSize = '70%' }) => fontSize};
   color: #FFFFFF;
   width: ${({ width = '60%' }) => width};

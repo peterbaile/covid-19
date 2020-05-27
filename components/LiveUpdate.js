@@ -47,6 +47,7 @@ const DurationText = s.text`
   font-size: 40%;
   vertical-align: middle;
   margin-left: 0.5rem;
+  font-weight: 700;
 
   @media (max-width: 768px) {
     display: block;
