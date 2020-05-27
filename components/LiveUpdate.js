@@ -2,7 +2,7 @@ import Skeleton from 'react-loading-skeleton'
 import s from 'styled-components'
 
 import { formatTimestamp, getDuration } from '../utils'
-import { ROBOTO_BOLD } from '../utils/font'
+import { ROBOTO_BOLD, LIBRE_BOLD } from '../utils/font'
 import { Title, StyledLink } from '../components/shared'
 
 const UpdateWrapper = s.div`
@@ -20,8 +20,7 @@ const TimestampText = s.div`
 `
 
 const LiveUpdateTitle = s.h4`
-  font-family: 'Libre Franklin', sans-serif;
-  font-weight: 900;
+  ${LIBRE_BOLD}
   color: #464242;
 
   transition: 0.3s;
