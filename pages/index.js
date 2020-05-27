@@ -80,12 +80,16 @@ const Home = ({ latestStories }) => {
   const [opinionCenterpiece, setOpinionCenterpiece] = useState(null)
   const [opinionArticles, setOpinionArticles] = useState(null)
   const [streetArticles, setStreetArticles] = useState(null)
+  const [sportsCenterpiece, setSportsCenterpiece] = useState(null)
+  const [sportsArticles, setSportsArticles] = useState(null)
   const [multimediaArticles, setMultimediaArticles] = useState(null)
+
   const [lvLoading, setLVLoading] = useState(true)
   const [newsLoading, setNewsLoading] = useState(true)
   const [mmloading, setMMLoading] = useState(true)
   const [opinionLoading, setOpinionLoading] = useState(true)
   const [streetLoading, setStreetLoading] = useState(true)
+  const [sportsLoading, setSportsLoading] = useState(true)
   
 
   useEffect(async () => {
@@ -116,6 +120,13 @@ const Home = ({ latestStories }) => {
       const { data } = resp
       setStreetArticles(data.articles.slice(1, 6))
       setStreetLoading(false)
+    })
+
+    await axios.get('/api/fetch?url=https://www.thedp.com/section/sports-covid.json').then(resp => {
+      const { data } = resp
+      setSportsCenterpiece(data.articles.slice(0, 2))
+      setSportsArticles(data.articles.slice(2, 5))
+      setSportsLoading(false)
     })
 
     await axios.get('/api/fetch?url=https://www.thedp.com/section/multimedia-covid.json').then(resp => {
@@ -238,7 +249,32 @@ const Home = ({ latestStories }) => {
             </div>
           ))}
         </div>
-        
+      </SectionDiv>
+
+      <Lines className="container" />
+
+      <SectionDiv className="container" id="sports">
+        <div className="row">
+          <Title> Sports </Title>
+        </div>
+        <div className="row">
+          <div className="col-md" style={{ borderRight: '1px solid #D8D2D2' }}>
+            <Loading loading={sportsLoading} />
+            {sportsCenterpiece && <Article article={sportsCenterpiece[0]} centerImage tagTextTopMargin="2rem" topMargin="2rem" />}
+          </div>
+          <div className="col-md" style={{ borderRight: '1px solid #D8D2D2' }}>
+            <Loading loading={sportsLoading} />
+            {sportsCenterpiece && <Article article={sportsCenterpiece[1]} centerImage tagTextTopMargin="2rem" topMargin="2rem" />}
+          </div>
+          <div className="col-md">
+            <SideLoading loading={sportsLoading} count={2} />
+            {sportsArticles && sportsArticles.map((article, idx) => (
+              <div style={{ borderBottom: idx < sportsArticles.length - 1 ? '1px solid #D8D2D2' : 'none' }}>
+                <SideArticle article={article} fontSize="85%" topMargin="0.2rem" />
+              </div> 
+            ))}
+          </div>
+        </div>
       </SectionDiv>
 
       <Lines className="container" />

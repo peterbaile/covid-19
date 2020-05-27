@@ -72,6 +72,9 @@ const NavBar = () => {
             <a className="nav-link" href="#34st"> <NavText> 34th Street </NavText> </a>
           </li>
           <li className="nav-item">
+            <a className="nav-link" href="#sports"> <NavText> Sports </NavText> </a>
+          </li>
+          <li className="nav-item">
             <a className="nav-link" href="#multimedia"> <NavText> Multimedia </NavText></a>
           </li>
         </RightUL>
