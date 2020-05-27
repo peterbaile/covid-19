@@ -47,6 +47,9 @@ const NavBar = () => {
           <li className="nav-item">
             <a className="nav-link" href="#news"> <NavText> News</NavText> </a>
           </li>
+          <li className="nav-item">
+            <a className="nav-link" href="#tracking"> <NavText> Tracking </NavText> </a>
+          </li>
         </LeftUL>
       </div>
       <div className="mx-auto my-2 order-0 order-md-1 position-relative" style={{ textAlign: 'center' }}>

@@ -11,6 +11,7 @@ import Header from '../components/Header'
 import Loading from '../components/Loading'
 import SideLoading from '../components/SideLoading'
 import StreetCenter from '../components/StreetCenter'
+import Map from '../components/Map'
 
 import { Title, StyledLink } from '../components/shared'
 import StreetArticle from '../components/StreetArticle'
@@ -150,6 +151,9 @@ const Home = ({ latestStories }) => {
           </div>
         </div>
       </SectionDiv>
+
+      <Map />
+      
 
       {/* <NewsLetter /> */}
 

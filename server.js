@@ -69,8 +69,6 @@ nextApp.prepare().then(() => {
           }
         }).slice(0, 4)
     
-        console.log(processedUpdates)
-    
         const returnList = processedUpdates.map((update, idx) => {
           let obj = extractTimestamp(update)
           obj.title = cheerio.load(updatesList[idx])('strong').text().trim()
