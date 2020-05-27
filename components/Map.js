@@ -46,7 +46,7 @@ const Map = () => (
     <MapWrapper
       aria-label="Map"
       id="datawrapper-chart-zlgcC"
-      src="https://datawrapper.dwcdn.net/zlgcC/26/"
+      src="https://datawrapper.dwcdn.net/zlgcC/27/"
       scrolling="no"
       frameborder="0"
     />
