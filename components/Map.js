@@ -41,12 +41,12 @@ const Map = () => (
     </div>
     <TextWrapper>
       <HeaderText> U.S. College 2020 Fall Plans </HeaderText>
-      <SubText> All 50 states, including over 230 colleges, are represented in this map. </SubText>
+      <SubText> All 50 states, including over 250 colleges, are represented in this map. </SubText>
     </TextWrapper>
     <MapWrapper
       aria-label="Map"
       id="datawrapper-chart-zlgcC"
-      src="https://datawrapper.dwcdn.net/zlgcC/25/"
+      src="https://datawrapper.dwcdn.net/zlgcC/26/"
       scrolling="no"
       frameborder="0"
     />
