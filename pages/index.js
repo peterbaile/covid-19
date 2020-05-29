@@ -27,7 +27,7 @@ const Background = s.div`
 
 const CoverImg = s.img`
   padding: 1rem 0;
-  max-height: 250px;
+  max-height: 200px;
 `
 
 const SectionDiv = s.div`
