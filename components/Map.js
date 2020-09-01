@@ -61,8 +61,8 @@ const Map = () => (
     </TextWrapper>
     <MapWrapper
       aria-label="Map"
-      id="datawrapper-chart-zlgcC"
-      src="https://datawrapper.dwcdn.net/zlgcC/74/"
+      id="datawrapper-chart-qogel"
+      src="https://datawrapper.dwcdn.net/qogel/2/"
       scrolling="no"
       frameborder="0"
     />
