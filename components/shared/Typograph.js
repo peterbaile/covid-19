@@ -46,7 +46,7 @@ export const TimestampText = s.div`
 `
 
 export const Title = s.div`
-  border-left: 12px solid #D12D4A;
+  ${({ noBorder }) => noBorder ? '': 'border-left: 12px solid #D12D4A;'}
   padding: 0rem 1rem;
   text-align: left;
   font-size: 30px;

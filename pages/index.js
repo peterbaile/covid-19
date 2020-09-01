@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import s from 'styled-components'
+import { Line } from 'react-chartjs-2'
 
 import Article from '../components/Article'
 import LiveUpdate from '../components/LiveUpdate'
@@ -73,6 +74,8 @@ const TimelineDiv = s.div`
   margin-top: 2rem;
 `
 
+// const CumulativeCase
+
 const Home = ({ latestStories }) => {
   const [liveUpdates, setLiveUpdates] = useState(null)
   const [newsCenterpiece, setNewsCenterpiece] = useState(null)
@@ -90,11 +93,45 @@ const Home = ({ latestStories }) => {
   const [opinionLoading, setOpinionLoading] = useState(true)
   const [streetLoading, setStreetLoading] = useState(true)
   const [sportsLoading, setSportsLoading] = useState(true)
+
+  const [caseData, setCaseData] = useState({})
+  const [cumulativeCase, setCumulativeCase] = useState(null)
   
 
   useEffect(async () => {
     initGA()
     logPageView()
+
+    await axios.get('/api/fetch?url=https://recommender.thedp.com/covid').then(resp => {
+      const { data: { results } } = resp
+      setCumulativeCase(results[0]["Positive_Cases_Cumulative"][results[0]["Positive_Cases_Cumulative"].length - 1])
+      setCaseData({
+        labels: results[0]["Dates"].map(date => `${new Date(date).getMonth()+1}/${new Date(date).getDate()}`),
+        datasets: [
+          {
+            label: 'Daily Count',
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: 'rgba(75,192,192,0.4)',
+            borderColor: 'rgba(75,192,192,1)',
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: 'rgba(75,192,192,1)',
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 3,
+            pointHitRadius: 10,
+            data: results[0]["Positive_Cases"]
+          }
+        ]
+      })
+    })
 
     await axios.get('/api/live-updates').then(resp => {
       const { data } = resp
@@ -145,6 +182,18 @@ const Home = ({ latestStories }) => {
       <Background>
         <CoverImg src="/img/Covering-COVID.png" className="img-fluid" />
       </Background>
+
+      <div className="container">
+        <div className="row">
+          <div className="col-8">
+            <Line data={caseData} />
+          </div>
+          <div className="col">
+            <Title noBorder> {cumulativeCase} </Title>
+            positive COVID-19 cases reported from Houston Hall testing site
+          </div>
+        </div>
+      </div>
 
       <SectionDiv className="container" id="latest">
         <div className="row">
