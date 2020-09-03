@@ -13,6 +13,7 @@ import Loading from '../components/Loading'
 import SideLoading from '../components/SideLoading'
 import StreetCenter from '../components/StreetCenter'
 import Map from '../components/Map'
+import moment from 'moment'
 
 import { Title, StyledLink } from '../components/shared'
 import StreetArticle from '../components/StreetArticle'
@@ -74,6 +75,41 @@ const TimelineDiv = s.div`
   margin-top: 2rem;
 `
 
+const GraphWrapper = s.div`
+  margin: 4rem 15rem;
+  color: #707070;
+`
+
+const Button = s.button`
+  background-color: #FFF;
+  border: 1px solid #707070;
+  opacity: 1;
+  color: #283033;
+  height: 3rem;
+  width: 12rem;
+`
+
+const GraphTitle = s.text`
+  color: #283033;
+`
+
+const GraphSubtitle = s.text`
+  color: #D12D4A;
+  vertical-align: middle;
+  margin-top: 4rem;
+  margin-left: 0;
+  font-weight: 800;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+`
+
+const GraphNumber = s(Title)`
+  padding: 0;
+`
+
+
 // const CumulativeCase
 
 const Home = ({ latestStories }) => {
@@ -94,8 +130,14 @@ const Home = ({ latestStories }) => {
   const [streetLoading, setStreetLoading] = useState(true)
   const [sportsLoading, setSportsLoading] = useState(true)
 
+  const [graphState, setGraphState] = useState('daily')
+
   const [caseData, setCaseData] = useState({})
   const [cumulativeCase, setCumulativeCase] = useState(null)
+
+  const [cumulativeData, setCumulativeData] = useState({})
+  const [totalCases, setTotalCases] = useState(null)
+  const [totalCasesDate, setTotalCasesDate] = useState(null)
   
 
   useEffect(async () => {
@@ -109,6 +151,7 @@ const Home = ({ latestStories }) => {
         labels: results[0]["Dates"].map(date => `${new Date(date).getMonth()+1}/${new Date(date).getDate()}`),
         datasets: [
           {
+            label: 'Daily Count',
             fill: false,
             lineTension: 0.1,
             backgroundColor: 'rgba(75,192,192,0.4)',
@@ -127,6 +170,38 @@ const Home = ({ latestStories }) => {
             pointRadius: 3,
             pointHitRadius: 10,
             data: results[0]["Positive_Cases"]
+          }
+        ]
+      })
+    })
+
+    await axios.get('/api/fetch?url=https://recommender.thedp.com/covidtotal').then(resp => {
+      const { data } = resp
+      setTotalCases(data["confirmed"][data["confirmed"].length - 1])
+      setTotalCasesDate(data['timestamp'][data['timestamp'].length - 1])
+      setCumulativeData({
+        labels: data["timestamp"].map(date => `${new Date(date).getMonth()+1}/${new Date(date).getDate()}`),
+        datasets: [
+          {
+            label: 'Cumulative',
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: 'rgba(75,192,192,0.4)',
+            borderColor: 'rgba(75,192,192,1)',
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: 'rgba(75,192,192,1)',
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 3,
+            pointHitRadius: 10,
+            data: data["confirmed"]
           }
         ]
       })
@@ -182,17 +257,30 @@ const Home = ({ latestStories }) => {
         <CoverImg src="/img/Covering-COVID.png" className="img-fluid" />
       </Background>
 
-      <div className="container">
+      <GraphWrapper>
         <div className="row">
-          <div className="col-8">
-            <Line data={caseData} options={{ legend: {display: false} }}/>
+          <div className="col-8" style= {{textAlign: "center"}}>
+            <GraphTitle>PENN CASES</GraphTitle>
+            <Line data={graphState == 'daily' ? caseData: cumulativeData} />
+            <div className="row">
+              <div className = "col-6">
+                <Button onClick = {() => setGraphState('daily')}>Daily Cases</Button>
+              </div>
+              <div className = "col-6">
+                <Button onClick = {() => setGraphState('cumulative')}>Cumulative Cases</Button>
+              </div>
+            </div>
           </div>
           <div className="col">
-            <Title noBorder> {cumulativeCase} </Title>
-            positive COVID-19 cases reported from Houston Hall testing site
+            <GraphSubtitle>Daily</GraphSubtitle>
+            <GraphNumber noBorder> {cumulativeCase} </GraphNumber>
+            Tested so far at Houston Hall<br/>
+            <GraphSubtitle>Cumulative</GraphSubtitle>
+            <GraphNumber noBorder> {totalCases} </GraphNumber>
+            Domestic and International Cases as of {moment(totalCasesDate, 'YYYY-MM-DD').format('MMMM D, YYYY')}
           </div>
         </div>
-      </div>
+      </GraphWrapper>
 
       <SectionDiv className="container" id="latest">
         <div className="row">
