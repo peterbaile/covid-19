@@ -76,8 +76,13 @@ const TimelineDiv = s.div`
 `
 
 const GraphWrapper = s.div`
-  margin: 4rem 15rem;
+  margin: 4rem 10rem;
   color: #707070;
+
+  @media (max-width: 768px) {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
 `
 
 const Button = s.button`
@@ -87,6 +92,11 @@ const Button = s.button`
   color: #283033;
   height: 3rem;
   width: 12rem;
+
+  @media (max-width: 768px) {
+    height: 1.5rem;
+    width: 8rem;
+  }
 `
 
 const GraphTitle = s.text`
@@ -107,6 +117,7 @@ const GraphSubtitle = s.text`
 
 const GraphNumber = s(Title)`
   padding: 0;
+  font-size: 50px;
 `
 
 
@@ -130,7 +141,7 @@ const Home = ({ latestStories }) => {
   const [streetLoading, setStreetLoading] = useState(true)
   const [sportsLoading, setSportsLoading] = useState(true)
 
-  const [graphState, setGraphState] = useState('daily')
+  const [graphState, setGraphState] = useState('DAILY')
 
   const [caseData, setCaseData] = useState({})
   const [cumulativeCase, setCumulativeCase] = useState(null)
@@ -155,16 +166,16 @@ const Home = ({ latestStories }) => {
             fill: false,
             lineTension: 0.1,
             backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
+            borderColor: '#D12D4A',
             borderCapStyle: 'butt',
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
+            pointBorderColor: '#D12D4A',
             pointBackgroundColor: '#fff',
             pointBorderWidth: 1,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+            pointHoverBackgroundColor: '#D12D4A',
             pointHoverBorderColor: 'rgba(220,220,220,1)',
             pointHoverBorderWidth: 2,
             pointRadius: 3,
@@ -259,25 +270,33 @@ const Home = ({ latestStories }) => {
 
       <GraphWrapper>
         <div className="row">
-          <div className="col-8" style= {{textAlign: "center"}}>
+          <div className="col-md-8" style= {{ textAlign: "center" }}>
             <GraphTitle>PENN CASES</GraphTitle>
-            <Line data={graphState == 'daily' ? caseData: cumulativeData} />
-            <div className="row">
-              <div className = "col-6">
-                <Button onClick = {() => setGraphState('daily')}>Daily Cases</Button>
-              </div>
-              <div className = "col-6">
-                <Button onClick = {() => setGraphState('cumulative')}>Cumulative Cases</Button>
-              </div>
+            <Line
+              data={graphState == 'DAILY' ? caseData: cumulativeData}
+              options={{ legend: { display: false } }}
+            />
+            <div className="row justify-content-center" style={{ marginTop: '1rem' }}>
+              <button
+                type="button"
+                className="btn btn-outline-secondary"
+                onClick = {() => setGraphState('DAILY')}
+                style={{ marginRight: '1rem' }}
+              >
+                Daily Cases
+              </button>
+              <button type="button" className="btn btn-outline-secondary" onClick = {() => setGraphState('CUMULATIVE')}>Cumulative Cases</button>
             </div>
           </div>
-          <div className="col">
-            <GraphSubtitle>Daily</GraphSubtitle>
-            <GraphNumber noBorder> {cumulativeCase} </GraphNumber>
-            Tested so far at Houston Hall<br/>
-            <GraphSubtitle>Cumulative</GraphSubtitle>
-            <GraphNumber noBorder> {totalCases} </GraphNumber>
-            Domestic and International Cases as of {moment(totalCasesDate, 'YYYY-MM-DD').format('MMMM D, YYYY')}
+          <div className="col-md">
+            <GraphSubtitle>DAILY</GraphSubtitle>
+            <GraphNumber noBorder> {cumulativeCase} Cases </GraphNumber>
+            Reported at Houston Hall
+            <div style={{ marginTop: '3rem' }}>
+              <GraphSubtitle>CUMULATIVE</GraphSubtitle>
+              <GraphNumber noBorder> {totalCases} Cases </GraphNumber>
+              Domestic and International Cases as of {moment(totalCasesDate, 'YYYY-MM-DD').format('MMMM D, YYYY')}
+            </div>
           </div>
         </div>
       </GraphWrapper>
