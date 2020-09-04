@@ -85,8 +85,13 @@ const GraphWrapper = s.div`
   }
 `
 
-const Button = s.button`
-  
+const ButtonWrapper = s.div`
+  .graph-button {
+    :hover {
+      border-color: ${({ color }) => color};
+      background-color: ${({ color }) => color};
+    }
+  }
 `
 
 const GraphTitle = s.text`
@@ -267,15 +272,23 @@ const Home = ({ latestStories }) => {
               options={{ legend: { display: false } }}
             />
             <div className="row justify-content-center" style={{ marginTop: '1rem' }}>
-              <button
-                type="button"
-                className="btn btn-outline-secondary "
-                onClick = {() => setGraphState('DAILY')}
-                style={{ marginRight: '1rem' }}
-              >
-                Daily Cases
-              </button>
-              <button type="button" className="btn btn-outline-secondary" onClick = {() => setGraphState('CUMULATIVE')}>Cumulative Cases</button>
+              <ButtonWrapper color="#D12D4A">
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary graph-button"
+                  onClick = {() => setGraphState('DAILY')}
+                  style={{ marginRight: '1rem' }}
+                >
+                  Daily Cases
+                </button>
+              </ButtonWrapper>
+              <ButtonWrapper color="rgba(75,192,192,1)">
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary graph-button"
+                  onClick = {() => setGraphState('CUMULATIVE')}>Cumulative Cases
+                </button>
+              </ButtonWrapper>
             </div>
           </div>
           <div className="col-md">
