@@ -261,7 +261,7 @@ const Home = ({ latestStories }) => {
       <GraphWrapper>
         <div className="row">
           <div className="col-md-8" style= {{ textAlign: "center" }}>
-            <GraphTitle>PENN CASES</GraphTitle>
+            <GraphTitle>{graphState == 'DAILY' ? 'Positive COVID-19 Cases at Penn': 'Confirmed/Probable COVID-19 Cases Among Penn Students'}</GraphTitle>
             <Line
               data={graphState == 'DAILY' ? caseData: cumulativeData}
               options={{ legend: { display: false } }}
