@@ -86,17 +86,7 @@ const GraphWrapper = s.div`
 `
 
 const Button = s.button`
-  background-color: #FFF;
-  border: 1px solid #707070;
-  opacity: 1;
-  color: #283033;
-  height: 3rem;
-  width: 12rem;
-
-  @media (max-width: 768px) {
-    height: 1.5rem;
-    width: 8rem;
-  }
+  
 `
 
 const GraphTitle = s.text`
@@ -279,7 +269,7 @@ const Home = ({ latestStories }) => {
             <div className="row justify-content-center" style={{ marginTop: '1rem' }}>
               <button
                 type="button"
-                className="btn btn-outline-secondary"
+                className="btn btn-outline-secondary "
                 onClick = {() => setGraphState('DAILY')}
                 style={{ marginRight: '1rem' }}
               >
@@ -295,7 +285,7 @@ const Home = ({ latestStories }) => {
             <div style={{ marginTop: '3rem' }}>
               <GraphSubtitle>CUMULATIVE</GraphSubtitle>
               <GraphNumber noBorder> {totalCases} Cases </GraphNumber>
-              Domestic and International Cases as of {moment(totalCasesDate, 'YYYY-MM-DD').format('MMMM D, YYYY')}
+              Reported by domestic and international students as of {moment(totalCasesDate, 'YYYY-MM-DD').format('MMMM D, YYYY')}
             </div>
           </div>
         </div>
