@@ -186,7 +186,7 @@ const Home = ({ latestStories }) => {
       setTotalCases(data["confirmed"][data["confirmed"].length - 1])
       setTotalCasesDate(data['timestamp'][data['timestamp'].length - 1])
       setCumulativeData({
-        labels: data["timestamp"].map(date => `${new Date(date).getMonth()+1}/${new Date(date).getDate()}`),
+        labels: data["timestamp"].map(date => `${new Date(date + 'T00:00:00').getMonth()+1}/${new Date(date+ 'T00:00:00').getDate()}`),
         datasets: [
           {
             label: 'Cumulative',
@@ -292,11 +292,10 @@ const Home = ({ latestStories }) => {
             </div>
           </div>
           <div className="col-md">
-            <GraphSubtitle>DAILY</GraphSubtitle>
+            <GraphSubtitle>CUMULATIVE CASE COUNT</GraphSubtitle>
             <GraphNumber noBorder> {cumulativeCase} Cases </GraphNumber>
             Reported at Houston Hall
             <div style={{ marginTop: '3rem' }}>
-              <GraphSubtitle>CUMULATIVE</GraphSubtitle>
               <GraphNumber noBorder> {totalCases} Cases </GraphNumber>
               Reported by domestic and international students as of {moment(totalCasesDate, 'YYYY-MM-DD').format('MMMM D, YYYY')}
             </div>
