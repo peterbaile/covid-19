@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import s from 'styled-components'
 import { Line } from 'react-chartjs-2'
+import moment from 'moment'
 
 import Article from '../components/Article'
 import LiveUpdate from '../components/LiveUpdate'
@@ -13,7 +14,7 @@ import Loading from '../components/Loading'
 import SideLoading from '../components/SideLoading'
 import StreetCenter from '../components/StreetCenter'
 import Map from '../components/Map'
-import moment from 'moment'
+import Ad from '../components/Ad'
 
 import { Title, StyledLink } from '../components/shared'
 import StreetArticle from '../components/StreetArticle'
@@ -347,6 +348,8 @@ const Home = ({ latestStories }) => {
         </div>
       </SectionDiv>
 
+      <Ad />
+
       {/* <Lines className="container" />
 
       <SectionDiv className="container" id="timeline">
@@ -433,6 +436,8 @@ const Home = ({ latestStories }) => {
           </div>
         </div>
       </SectionDiv>
+
+      <Ad />
 
       <Lines className="container" />
 
