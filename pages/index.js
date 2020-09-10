@@ -91,6 +91,7 @@ const ButtonWrapper = s.div`
     :hover {
       border-color: ${({ color }) => color};
       background-color: ${({ color }) => color};
+      color: rgb(209, 45, 74);
     }
   }
 `
@@ -116,6 +117,31 @@ const GraphNumber = s(Title)`
   font-size: 50px;
 `
 
+const GraphNumberBubble = s.div`
+  line-height: 1;
+  transform: translate(0, 20%);
+  color: #D12D4A;
+`
+
+const StyledAnchor = s.a`
+  color: #000000 !important;
+  text-decoration: none !important;
+`
+const NewsLetterWrapper = s.div`
+  .newsletter {
+    justify-content: center;
+    margin-top: 4rem;
+    padding: 0 15rem;
+    @media(max-width: 768px) {
+      padding: 0 2rem;
+    }
+  }
+`
+const NewsLetterImg = s.img`
+  :hover { 
+    opacity: 70%;
+  }
+`
 
 // const CumulativeCase
 
@@ -141,11 +167,16 @@ const Home = ({ latestStories }) => {
 
   const [caseData, setCaseData] = useState({})
   const [cumulativeCase, setCumulativeCase] = useState(null)
+  const [cumulativeTest, setCumulativeTest] = useState(null)
 
   const [cumulativeData, setCumulativeData] = useState({})
   const [totalCases, setTotalCases] = useState(null)
   const [totalCasesDate, setTotalCasesDate] = useState(null)
   
+  const commaNumber = (number) => {
+    if (number == null) {return "0"}
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 
   useEffect(async () => {
     initGA()
@@ -154,6 +185,7 @@ const Home = ({ latestStories }) => {
     await axios.get('/api/fetch?url=https://recommender.thedp.com/covid').then(resp => {
       const { data: { results } } = resp
       setCumulativeCase(results[0]["Positive_Cases_Cumulative"][results[0]["Positive_Cases_Cumulative"].length - 1])
+      setCumulativeTest(results[0]["Tests_Done_Cumulative"][results[0]["Tests_Done_Cumulative"].length - 1])
       setCaseData({
         labels: results[0]["Dates"].map(date => `${new Date(date).getMonth()+1}/${new Date(date).getDate()}`),
         datasets: [
@@ -294,7 +326,15 @@ const Home = ({ latestStories }) => {
           </div>
           <div className="col-md">
             <GraphSubtitle>CUMULATIVE CASE COUNT</GraphSubtitle>
-            <GraphNumber noBorder> {cumulativeCase} Cases </GraphNumber>
+            <div class="row">
+              <div class="col-auto">
+                <GraphNumber noBorder> {cumulativeCase} Cases </GraphNumber>
+              </div>
+              <GraphNumberBubble>
+                <div>({Math.round(10000 * cumulativeCase / cumulativeTest) / 100}% positivity rate with</div>
+                <div>{commaNumber(cumulativeTest)} tests administered)</div>
+              </GraphNumberBubble>
+            </div>
             Reported at Houston Hall
             <div style={{ marginTop: '3rem' }}>
               <GraphNumber noBorder> {totalCases} Cases </GraphNumber>
@@ -325,6 +365,15 @@ const Home = ({ latestStories }) => {
       
 
       {/* <NewsLetter /> */}
+      <StyledAnchor href="https://www.thedp.com/page/subscribe-dear-penn" target="_blank">
+        <NewsLetterWrapper>
+          <div className="row newsletter">
+            <div className="col">
+              <NewsLetterImg src="/newsletter-pink.png" className="img-fluid" />
+            </div>
+          </div>
+        </NewsLetterWrapper>
+      </StyledAnchor>
 
       <Lines className="container" />
 
