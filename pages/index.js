@@ -136,6 +136,12 @@ const NewsLetterWrapper = s.div`
       padding: 0 2rem;
     }
   }
+
+  img {
+    :hover {
+      opacity: 70%
+    }
+  }
 `
 const NewsLetterImg = s.img`
   :hover { 
@@ -166,17 +172,12 @@ const Home = ({ latestStories }) => {
   const [graphState, setGraphState] = useState('DAILY')
 
   const [caseData, setCaseData] = useState({})
-  const [cumulativeCase, setCumulativeCase] = useState(null)
-  const [cumulativeTest, setCumulativeTest] = useState(null)
+  const [cumulativeCases, setCumulativeCases] = useState(null)
+  const [cumulativeTests, setCumulativeTests] = useState(null)
 
   const [cumulativeData, setCumulativeData] = useState({})
   const [totalCases, setTotalCases] = useState(null)
   const [totalCasesDate, setTotalCasesDate] = useState(null)
-  
-  const commaNumber = (number) => {
-    if (number == null) {return "0"}
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
 
   useEffect(async () => {
     initGA()
@@ -184,8 +185,9 @@ const Home = ({ latestStories }) => {
 
     await axios.get('/api/fetch?url=https://recommender.thedp.com/covid').then(resp => {
       const { data: { results } } = resp
-      setCumulativeCase(results[0]["Positive_Cases_Cumulative"][results[0]["Positive_Cases_Cumulative"].length - 1])
-      setCumulativeTest(results[0]["Tests_Done_Cumulative"][results[0]["Tests_Done_Cumulative"].length - 1])
+      const [ { Tests_Done_Cumulative, Positive_Cases_Cumulative }, _ ] = results
+      setCumulativeCases(Positive_Cases_Cumulative[Positive_Cases_Cumulative.length - 1])
+      setCumulativeTests(Tests_Done_Cumulative[Tests_Done_Cumulative.length - 1])
       setCaseData({
         labels: results[0]["Dates"].map(date => `${new Date(date).getMonth()+1}/${new Date(date).getDate()}`),
         datasets: [
@@ -328,11 +330,10 @@ const Home = ({ latestStories }) => {
             <GraphSubtitle>CUMULATIVE CASE COUNT</GraphSubtitle>
             <div class="row">
               <div class="col-auto">
-                <GraphNumber noBorder> {cumulativeCase} Cases </GraphNumber>
+                <GraphNumber noBorder> {cumulativeCases} Cases </GraphNumber>
               </div>
               <GraphNumberBubble>
-                <div>({Math.round(10000 * cumulativeCase / cumulativeTest) / 100}% positivity rate with</div>
-                <div>{commaNumber(cumulativeTest)} tests administered)</div>
+                <p>({Math.round(10000 * cumulativeCases / cumulativeTests) / 100}% positivity rate with <br /> {String(cumulativeTests).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} tests administered)</p>
               </GraphNumberBubble>
             </div>
             Reported at Houston Hall
@@ -369,7 +370,7 @@ const Home = ({ latestStories }) => {
         <NewsLetterWrapper>
           <div className="row newsletter">
             <div className="col">
-              <NewsLetterImg src="/newsletter-pink.png" className="img-fluid" />
+              <img src="/newsletter-pink.png" className="img-fluid" />
             </div>
           </div>
         </NewsLetterWrapper>
