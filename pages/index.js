@@ -118,38 +118,9 @@ const GraphNumber = s(Title)`
 `
 
 const GraphNumberBubble = s.div`
-  line-height: 1;
-  transform: translate(0, 20%);
+  ${LIBRE_BOLD}
   color: #D12D4A;
 `
-
-const StyledAnchor = s.a`
-  color: #000000 !important;
-  text-decoration: none !important;
-`
-const NewsLetterWrapper = s.div`
-  .newsletter {
-    justify-content: center;
-    margin-top: 4rem;
-    padding: 0 15rem;
-    @media(max-width: 768px) {
-      padding: 0 2rem;
-    }
-  }
-
-  img {
-    :hover {
-      opacity: 70%
-    }
-  }
-`
-const NewsLetterImg = s.img`
-  :hover { 
-    opacity: 70%;
-  }
-`
-
-// const CumulativeCase
 
 const Home = ({ latestStories }) => {
   const [liveUpdates, setLiveUpdates] = useState(null)
@@ -331,10 +302,10 @@ const Home = ({ latestStories }) => {
             <div class="row">
               <div class="col-auto">
                 <GraphNumber noBorder> {cumulativeCases} Cases </GraphNumber>
+                <GraphNumberBubble>
+                  <p>({Math.round(10000 * cumulativeCases / cumulativeTests) / 100}% positivity rate with <br /> {String(cumulativeTests).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} tests administered)</p>
+                </GraphNumberBubble>
               </div>
-              <GraphNumberBubble>
-                <p>({Math.round(10000 * cumulativeCases / cumulativeTests) / 100}% positivity rate with <br /> {String(cumulativeTests).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} tests administered)</p>
-              </GraphNumberBubble>
             </div>
             Reported at Houston Hall
             <div style={{ marginTop: '3rem' }}>
@@ -363,18 +334,8 @@ const Home = ({ latestStories }) => {
       </SectionDiv>
 
       <Map />
-      
 
-      {/* <NewsLetter /> */}
-      <StyledAnchor href="https://www.thedp.com/page/subscribe-dear-penn" target="_blank">
-        <NewsLetterWrapper>
-          <div className="row newsletter">
-            <div className="col">
-              <img src="/newsletter-pink.png" className="img-fluid" />
-            </div>
-          </div>
-        </NewsLetterWrapper>
-      </StyledAnchor>
+      <NewsLetter />
 
       <Lines className="container" />
 

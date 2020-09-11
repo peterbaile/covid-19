@@ -10,7 +10,7 @@ const MapWrapper = s.iframe`
   border: none;
   display: block;
   margin: 0 auto;
-  height: 769px;
+  height: 600px;
 
   @media (max-width: 768px) {
     height: 550px;
@@ -47,7 +47,7 @@ const LinkTitle = s(Title)`
 `
 
 const Map = () => (
-  <div className="container" style={{ marginBottom: '1rem' }} id="tracking">
+  <div className="container" id="tracking">
     <div className="row">
       <StyledLink href="https://www.thedp.com/article/2020/05/live-updates-map-latest-news-colleges-opening-coronavirus-national">
         <LinkTitle> Tracking Fall 2020 </LinkTitle>

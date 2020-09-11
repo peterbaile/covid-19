@@ -1,59 +1,38 @@
 import s from 'styled-components'
 
-const Background = s.div`
-  text-align: center;
-  margin: 0 20% 0rem 20%;
-  position: relative;
+const StyledAnchor = s.a`
+  color: #000000 !important;
+  text-decoration: none !important;
 `
 
-const CenteredDiv = s.div`
-  position: absolute;
-  top: 50%;
-  left: 25%;
-  transform: translate(-50%, -50%);
-`
+const NewsLetterWrapper = s.div`
+  .newsletter {
+    justify-content: center;
+    margin: 1rem 0 2rem 0;
+    padding: 0 15rem;
 
-const Title = s.div`
-  color: #283033;
-  font-family: 'Playfair Display', serif;
-  font-size: 2rem;
-`
-
-const Subtext = s.div`
-  color: #D12D4A;
-  font-family: 'Libre Franklin', sans-serif;
-  font-size: 1rem;
-`
-
-const Input = s.input`
-  margin-top: 2rem;
-  border: 1px solid #D12D4A;
-  color: #D12D4A;
-  padding: 1.5rem;
-  height: 0.5rem;
-  width: 100%;
-
-  ::placeholder {
-    color: #D12D4A;
+    @media(max-width: 768px) {
+      padding: 0 2rem;
+    }
   }
 
-  :focus {
-    outline: none;
+  img {
+    :hover {
+      opacity: 70%
+    }
   }
 `
 
-const NewsLetter = () => {
-  return (
-    <Background> 
-      <img src="/img/newsletter.png" className="img-fluid"/>
-      <CenteredDiv>
-        <Title>Join our newsletter</Title>
-        <Subtext>Daily updates, directly to your inbox.</Subtext>
-        <Input placeholder="Enter your email address"/>
-      </CenteredDiv>
-      
-    </Background>
-  )
-}
+const NewsLetter = () => (
+  <StyledAnchor href="https://www.thedp.com/page/subscribe-dear-penn" target="_blank">
+    <NewsLetterWrapper>
+      <div className="row newsletter">
+        <div className="col">
+          <img src="/newsletter-pink.png" className="img-fluid" />
+        </div>
+      </div>
+    </NewsLetterWrapper>
+  </StyledAnchor>
+)
 
 export default NewsLetter
