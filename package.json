@@ -14,7 +14,7 @@
     "cheerio": "^1.0.0-rc.3",
     "express": "^4.17.1",
     "moment": "^2.27.0",
-    "next": "^9.3.6",
+    "next": "^11.1.3",
     "react": "16.13.1",
     "react-chartjs-2": "^2.10.0",
     "react-dfp": "^0.18.0",
